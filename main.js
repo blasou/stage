@@ -1,7 +1,7 @@
 // Configuration du menu avec pages associées
 const menuItems = [
   { icon: 'home', text: 'Accueil', angle: 0, page: 'index.html' },
-  { icon: 'users', text: 'Qui sommes nous ?', angle: 60, page: 'qui-sommes-nous.html' },
+  { icon: 'users', text: 'Qui sommes nous', angle: 60, page: 'qui-sommes-nous.html' },
   { icon: 'briefcase', text: 'Nos prestations', angle: 120, page: 'prestations.html' },
   { icon: 'image', text: 'Nos réalisations', angle: 180, page: 'realisations.html' },
   { icon: 'piggy-bank', text: 'Grille tarifs', angle: 240, page: 'tarifs.html' },

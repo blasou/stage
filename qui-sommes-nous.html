@@ -1,98 +1,101 @@
 <!doctype html>
 <html lang="fr">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Qui sommes nous ? - Pour tous et notre projet de vie</title>
-  <link rel="stylesheet" href="css/qui-sommes-nous.css">
-</head>
-<body>
-  <div class="container">
-    <!-- Image de fond -->
-    <div class="background-image"></div>
-    
-    <!-- Navigation circulaire -->
-    <div class="menu-button">
-      <button onclick="toggleMenu()" class="menu-trigger">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
-      </button>
-    </div>
-    
-    <div id="circular-menu" class="circular-menu hidden">
-      <div class="menu-container">
-        <div class="menu-items"></div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Qui sommes nous ? - Notre entreprise</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/qui-sommes-nous.css">
+  </head>
+  <body>
+    <div class="container">
+      <!-- Image de fond -->
+      <div class="background-image"></div>
+      
+      <!-- Navigation circulaire -->
+      <div class="menu-button">
+        <button onclick="toggleMenu()" class="menu-trigger">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+        </button>
       </div>
-      <button onclick="toggleMenu()" class="close-button">×</button>
-    </div>
-    
-    <!-- Contenu spécifique à la page Qui sommes nous -->
-    <div class="page-content">
-      <div class="content-wrapper">
-        <h1>Qui sommes nous ?</h1>
-        
-        <div class="about-section">
-          <div class="team-intro">
-            <h2>Notre histoire</h2>
-            <p>Fondée en 2020, notre entreprise est née d'une passion partagée pour l'accompagnement des projets personnels et professionnels. Nous avons constaté que de nombreuses personnes avaient des difficultés à concrétiser leurs idées, c'est pourquoi nous avons décidé de mettre notre expertise à leur service.</p>
-            <p>Aujourd'hui, notre équipe pluridisciplinaire vous accompagne dans toutes les étapes de votre projet, de sa conception à sa réalisation.</p>
-          </div>
+      
+      <div id="circular-menu" class="circular-menu hidden">
+        <div class="menu-container">
+          <div class="menu-items"></div>
+        </div>
+        <button onclick="toggleMenu()" class="close-button">×</button>
+      </div>
+      
+      <!-- Contenu spécifique à la page Qui sommes nous -->
+      <div class="page-content">
+        <div class="content-wrapper">
+          <h1>Qui sommes nous ?</h1>
           
-          <div class="values">
-            <h2>Nos valeurs</h2>
-            <ul class="values-list">
-              <li>
-                <h3>Intégrité</h3>
-                <p>Nous agissons avec honnêteté et transparence dans toutes nos interactions.</p>
-              </li>
-              <li>
-                <h3>Excellence</h3>
-                <p>Nous nous efforçons de fournir un travail de la plus haute qualité.</p>
-              </li>
-              <li>
-                <h3>Innovation</h3>
-                <p>Nous recherchons constamment de nouvelles approches pour améliorer nos services.</p>
-              </li>
-              <li>
-                <h3>Collaboration</h3>
-                <p>Nous travaillons en étroite collaboration avec nos clients pour atteindre leurs objectifs.</p>
-              </li>
-            </ul>
-          </div>
-          
-          <div class="team-members">
-            <h2>Notre équipe</h2>
-            <div class="team-grid">
-              <div class="team-member">
-                <div class="member-photo"></div>
-                <h3>Marie Dupont</h3>
-                <p class="member-role">Fondatrice & Directrice</p>
-                <p>Plus de 15 ans d'expérience dans l'accompagnement de projets</p>
-              </div>
-              <div class="team-member">
-                <div class="member-photo"></div>
-                <h3>Thomas Martin</h3>
-                <p class="member-role">Responsable Technique</p>
-                <p>Expert en solutions innovantes et technologies</p>
-              </div>
-              <div class="team-member">
-                <div class="member-photo"></div>
-                <h3>Claire Petit</h3>
-                <p class="member-role">Conseillère Projets</p>
-                <p>Spécialiste en gestion de projet et optimisation</p>
-              </div>
-              <div class="team-member">
-                <div class="member-photo"></div>
-                <h3>Alexandre Dubois</h3>
-                <p class="member-role">Designer</p>
-                <p>Créatif passionné par l'expérience utilisateur</p>
+          <div class="about-section">
+            <div class="team-intro">
+              <h2>Notre histoire</h2>
+              <p>Fondée en 2020, notre entreprise est née d'une passion partagée pour l'accompagnement des projets personnels et professionnels. Nous avons constaté que de nombreuses personnes avaient des difficultés à concrétiser leurs idées, c'est pourquoi nous avons décidé de mettre notre expertise à leur service.</p>
+              <p>Aujourd'hui, notre équipe pluridisciplinaire vous accompagne dans toutes les étapes de votre projet, de sa conception à sa réalisation.</p>
+            </div>
+            
+            <div class="values">
+              <h2>Nos valeurs</h2>
+              <ul class="values-list">
+                <li>
+                  <h3>Intégrité</h3>
+                  <p>Nous agissons avec honnêteté et transparence dans toutes nos interactions.</p>
+                </li>
+                <li>
+                  <h3>Excellence</h3>
+                  <p>Nous nous efforçons de fournir un travail de la plus haute qualité.</p>
+                </li>
+                <li>
+                  <h3>Innovation</h3>
+                  <p>Nous recherchons constamment de nouvelles approches pour améliorer nos services.</p>
+                </li>
+                <li>
+                  <h3>Collaboration</h3>
+                  <p>Nous travaillons en étroite collaboration avec nos clients pour atteindre leurs objectifs.</p>
+                </li>
+              </ul>
+            </div>
+            
+            <div class="team-members">
+              <h2>Notre équipe</h2>
+              <div class="team-grid">
+                <div class="team-member">
+                  <div class="member-photo"></div>
+                  <h3>Marie Dupont</h3>
+                  <p class="member-role">Fondatrice & Directrice</p>
+                  <p>Plus de 15 ans d'expérience dans l'accompagnement de projets</p>
+                </div>
+                <div class="team-member">
+                  <div class="member-photo"></div>
+                  <h3>Thomas Martin</h3>
+                  <p class="member-role">Responsable Technique</p>
+                  <p>Expert en solutions innovantes et technologies</p>
+                </div>
+                <div class="team-member">
+                  <div class="member-photo"></div>
+                  <h3>Claire Petit</h3>
+                  <p class="member-role">Conseillère Projets</p>
+                  <p>Spécialiste en gestion de projet et optimisation</p>
+                </div>
+                <div class="team-member">
+                  <div class="member-photo"></div>
+                  <h3>Alexandre Dubois</h3>
+                  <p class="member-role">Designer</p>
+                  <p>Créatif passionné par l'expérience utilisateur</p>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-  
-  <script src="main.js"></script>
-</body>
+    
+    <script src="main.js"></script>
+  </body>
 </html>
