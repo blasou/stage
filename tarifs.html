@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Grille tarifs - Pour tous et notre projet de vie</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="pages.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Image de fond -->
+    <div class="background-image"></div>
+    
+    <!-- Navigation circulaire -->
+    <div class="menu-button">
+      <button onclick="toggleMenu()" class="menu-trigger">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+      </button>
+    </div>
+    
+    <div id="circular-menu" class="circular-menu hidden">
+      <div class="menu-container">
+        <div class="menu-items"></div>
+      </div>
+      <button onclick="toggleMenu()" class="close-button">×</button>
+    </div>
+    
+    <!-- Contenu spécifique à la page Grille tarifs -->
+    <div class="page-content">
+      <div class="content-wrapper">
+        <h1>Grille tarifs</h1>
+        
+        <div class="pricing-intro">
+          <p>Nous proposons des tarifs transparents et adaptés à chaque type de projet. Découvrez nos différentes formules ci-dessous. Pour des besoins spécifiques, n'hésitez pas à nous contacter pour un devis personnalisé.</p>
+        </div>
+        
+        <div class="pricing-toggle">
+          <span class="toggle-label active">Particuliers</span>
+          <label class="switch">
+            <input type="checkbox" id="pricing-switch">
+            <span class="slider round"></span>
+          </label>
+          <span class="toggle-label">Professionnels</span>
+        </div>
+        
+        <div class="pricing-tables">
+          <!-- Grille de tarifs pour particuliers -->
+          <div id="pricing-particuliers" class="pricing-grid active">
+            <div class="pricing-card">
+              <div class="pricing-header">
+                <h2>Essentiel</h2>
+                <div class="pricing-price">
+                  <span class="price">499€</span>
+                  <span class="period">forfait de base</span>
+                </div>
+              </div>
+              <div class="pricing-features">
+                <ul>
+                  <li>Consultation initiale</li>
+                  <li>Analyse des besoins</li>
+                  <li>Proposition de solutions</li>
+                  <li>1 révision</li>
+                  <li>Suivi pendant 1 mois</li>
+                </ul>
+              </div>
+              <div class="pricing-footer">
+                <a href="contact.html" class="pricing-button">Choisir cette offre</a>
+              </div>
+            </div>
+            
+            <div class="pricing-card popular">
+              <div class="popular-badge">Populaire</div>
+              <div class="pricing-header">
+                <h2>Premium</h2>
+                <div class="pricing-price">
+                  <span class="price">899€</span>
+                  <span class="period">forfait complet</span>
+                </div>
+              </div>
+              <div class="pricing-features">
+                <ul>
+                  <li>Consultation initiale approfondie</li>
+                  <li>Analyse détaillée des besoins</li>
+                  <li>Proposition de solutions personnalisées</li>
+                  <li>3 révisions</li>
+                  <li>Suivi pendant 3 mois</li>
+                  <li>Support prioritaire</li>
+                </ul>
+              </div>
+              <div class="pricing-footer">
+                <a href="contact.html" class="pricing-button">Choisir cette offre</a>
+              </div>
+            </div>
+            
+            <div class="pricing-card">
+              <div class="pricing-header">
+                <h2>Sur Mesure</h2>
+                <div class="pricing-price">
+                  <span class="price">Sur devis</span>
+                  <span class="period">selon vos besoins</span>
+                </div>
+              </div>
+              <div class="pricing-features">
+                <ul>
+                  <li>Programme entièrement personnalisé</li>
+                  <li>Accompagnement complet</li>
+                  <li>Équipe dédiée</li>
+                  <li>Révisions illimitées</li>
+                  <li>Suivi longue durée</li>
+                  <li>Formation incluse</li>
+                  <li>Assistance technique dédiée</li>
+                </ul>
+              </div>
+              <div class="pricing-footer">
+                <a href="contact.html" class="pricing-button">Demander un devis</a>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Grille de tarifs pour professionnels -->
+          <div id="pricing-professionnels" class="pricing-grid">
+            <div class="pricing-card">
+              <div class="pricing-header">
+                <h2>Startup</h2>
+                <div class="pricing-price">
+                  <span class="price">1 499€</span>
+                  <span class="period">forfait de base</span>
+                </div>
+              </div>
+              <div class="pricing-features">
+                <ul>
+                  <li>Audit initial</li>
+                  <li>Analyse des processus</li>
+                  <li>Recommandations stratégiques</li>
+                  <li>2 réunions de suivi</li>
+                  <li>Support pendant 3 mois</li>
+                </ul>
+              </div>
+              <div class="pricing-footer">
+                <a href="contact.html" class="pricing-button">Choisir cette offre</a>
+              </div>
+            </div>
+            
+            <div class="pricing-card popular">
+              <div class="popular-badge">Populaire</div>
+              <div class="pricing-header">
+                <h2>Enterprise</h2>
+                <div class="pricing-price">
+                  <span class="price">2 999€</span>
+                  <span class="period">forfait complet</span>
+                </div>
+              </div>
+              <div class="pricing-features">
+                <ul>
+                  <li>Audit complet</li>
+                  <li>Analyse approfondie des processus</li>
+                  <li>Plan stratégique détaillé</li>
+                  <li>Implémentation assistée</li>
+                  <li>4 réunions de suivi</li>
+                  <li>Support pendant 6 mois</li>
+                  <li>Formation des équipes</li>
+                </ul>
+              </div>
+              <div class="pricing-footer">
+                <a href="contact.html" class="pricing-button">Choisir cette offre</a>
+              </div>
+            </div>
+            
+            <div class="pricing-card">
+              <div class="pricing-header">
+                <h2>Sur Mesure</h2>
+                <div class="pricing-price">
+                  <span class="price">Sur devis</span>
+                  <span class="period">selon vos besoins</span>
+                </div>
+              </div>
+              <div class="pricing-features">
+                <ul>
+                  <li>Programme entièrement personnalisé</li>
+                  <li>Équipe dédiée à votre projet</li>
+                  <li>Développement sur mesure</li>
+                  <li>Intégration complète</li>
+                  <li>Maintenance et évolutions</li>
+                  <li>Support 24/7</li>
+                  <li>Formation approfondie</li>
+                </ul>
+              </div>
+              <div class="pricing-footer">
+                <a href="contact.html" class="pricing-button">Demander un devis</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="faq-section">
+          <h2>Questions fréquentes</h2>
+          
+          <div class="accordion">
+            <div class="accordion-item">
+              <button class="accordion-header">
+                Comment choisir la formule adaptée à mon projet ?
+                <svg class="accordion-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </button>
+              <div class="accordion-content">
+                <p>Pour choisir la formule qui vous convient le mieux, nous vous recommandons de considérer la complexité de votre projet, le niveau de personnalisation souhaité et votre budget. N'hésitez pas à nous contacter pour discuter de vos besoins spécifiques, nous vous aiderons à déterminer la meilleure option.</p>
+              </div>
+            </div>
+            
+            <div class="accordion-item">
+              <button class="accordion-header">
+                Les tarifs incluent-ils la TVA ?
+                <svg class="accordion-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </button>
+              <div class="accordion-content">
+                <p>Tous les prix affichés sont hors taxes (HT). La TVA applicable sera ajoutée au moment de la facturation conformément à la législation en vigueur.</p>
+              </div>
+            </div>
+            
+            <div class="accordion-item">
+              <button class="accordion-header">
+                Comment se déroule le processus de devis personnalisé ?
+                <svg class="accordion-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </button>
+              <div class="accordion-content">
+                <p>Pour obtenir un devis personnalisé, nous commençons par une consultation gratuite pour comprendre vos besoins. Ensuite, nous analysons votre projet et préparons une proposition détaillée avec un chiffrage précis. Après discussion et ajustements éventuels, nous finalisons le devis avant de débuter la collaboration.</p>
+              </div>
+            </div>
+            
+            <div class="accordion-item">
+              <button class="accordion-header">
+                Quels modes de paiement acceptez-vous ?
+                <svg class="accordion-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </button>
+              <div class="accordion-content">
+                <p>Nous acceptons plusieurs modes de paiement : virement bancaire, chèque, et carte bancaire. Pour les projets sur mesure, nous proposons généralement un échéancier de paiement adapté aux différentes phases du projet.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <script src="main.js"></script>
+  <script src="pricing.js"></script>
+</body>
+</html>
