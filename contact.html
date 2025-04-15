@@ -109,7 +109,6 @@
               <p>300 Chemin du Pendut</p>
               <p>34480 Magalas, France</p>
             </div>
-            </div>
           </div>
         </div>
       </div>
@@ -117,12 +116,58 @@
   </div>
   
   <script src="main.js"></script>
-  <script src="contact.js"></script>
   <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
-<script>
-  (function() {
-    emailjs.init("YOUR_USER_ID"); // Remplacez "YOUR_USER_ID" par votre ID utilisateur EmailJS
-  })();
-</script>
+  <script>
+    // Initialisation EmailJS
+    (function() {
+      emailjs.init("xvbQgcvKppax2tiHq"); 
+    })();
+
+    // Écoute de l'envoi du formulaire
+    document.addEventListener('DOMContentLoaded', function() {
+      const form = document.getElementById('contact-form');
+      const successMessage = document.getElementById('form-success');
+      
+      // S'assurer que le message de succès est caché au chargement
+      successMessage.classList.add('hidden');
+
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        // Vérifier que le formulaire est valide
+        if (!form.checkValidity()) {
+          form.reportValidity();
+          return;
+        }
+
+        // Ajouter un état de chargement pendant l'envoi
+        const submitButton = form.querySelector('.submit-button');
+        const originalButtonText = submitButton.textContent;
+        submitButton.textContent = "Envoi en cours...";
+        submitButton.disabled = true;
+
+        // Envoi via EmailJS
+        emailjs.sendForm('service_a2sproject', 'template_5w9whvn', form)
+          .then(function(response) {
+            console.log('SUCCESS!', response.status, response.text);
+            form.reset(); // Réinitialise le formulaire
+            successMessage.classList.remove('hidden'); // Affiche le message de succès
+            
+            // Retour à l'état normal après un certain temps
+            setTimeout(function() {
+              submitButton.textContent = originalButtonText;
+              submitButton.disabled = false;
+            }, 1000);
+          }, function(error) {
+            console.log('FAILED...', error);
+            alert('Une erreur est survenue lors de l\'envoi. Veuillez réessayer plus tard.');
+            
+            // Retour à l'état normal
+            submitButton.textContent = originalButtonText;
+            submitButton.disabled = false;
+          });
+      });
+    });
+  </script>
 </body>
 </html>

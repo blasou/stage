@@ -8,6 +8,10 @@
   font-family: 'Poppins', sans-serif;
 }
 
+.hidden {
+  display: none !important;
+}
+
 /* Menu styles */
 .menu-button {
     position: fixed;
