@@ -1,123 +1,80 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Nos réalisations - Pour tous et notre projet de vie</title>
-  <link rel="stylesheet" href="css/realisations.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nos réalisations - Pour tous et notre projet de vie</title>
+    <link rel="stylesheet" href="css/realisations.css">
 </head>
 <body>
-  <div class="container">
-    <!-- Image de fond -->
-    <div class="background-image"></div>
-    
-    <!-- Navigation circulaire -->
-    <div class="menu-button">
-      <button onclick="toggleMenu()" class="menu-trigger">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
-      </button>
-    </div>
-    
-    <div id="circular-menu" class="circular-menu hidden">
-      <div class="menu-container">
-        <div class="menu-items"></div>
-      </div>
-      <button onclick="toggleMenu()" class="close-button">×</button>
-    </div>
-    
-    <!-- Contenu spécifique à la page Nos réalisations -->
-    <div class="page-content">
-      <div class="content-wrapper">
-        <h1>Nos réalisations</h1>
+    <div class="container">
+        <div class="background-image"></div>
         
-        <div class="portfolio-intro">
-          <p>Découvrez quelques-uns de nos projets récents. Chaque réalisation témoigne de notre engagement à fournir des solutions de qualité adaptées aux besoins spécifiques de nos clients.</p>
-        </div>
-        
-        <div class="portfolio-grid">
-          <div class="portfolio-item" data-category="particulier design">
-            <div class="portfolio-image" style="background-image: url('/api/placeholder/600/400')"></div>
-            <div class="portfolio-details">
-              <h2>Rénovation intérieure</h2>
-              <p class="portfolio-category">Particulier | Design</p>
-              <p>Conception et réalisation d'un espace de vie moderne et fonctionnel pour une famille de quatre personnes.</p>
-              <a href="#" class="portfolio-link">Voir le projet</a>
+        <main class="content">
+            <h1 class="main-title">Nos réalisations</h1>
+            
+            <div class="portfolio-intro">
+                <p>Découvrez nos projets classés par catégories. Chaque réalisation illustre notre expertise et notre engagement envers nos clients.</p>
             </div>
-          </div>
-          
-          <div class="portfolio-item" data-category="professionnel technique">
-            <div class="portfolio-image" style="background-image: url('/api/placeholder/600/400')"></div>
-            <div class="portfolio-details">
-              <h2>Plateforme de gestion</h2>
-              <p class="portfolio-category">Professionnel | Technique</p>
-              <p>Développement d'une solution sur mesure pour optimiser la gestion des ressources d'une PME.</p>
-              <a href="#" class="portfolio-link">Voir le projet</a>
-            </div>
-          </div>
-          
-          <div class="portfolio-item" data-category="particulier technique">
-            <div class="portfolio-image" style="background-image: url('/api/placeholder/600/400')"></div>
-            <div class="portfolio-details">
-              <h2>Domotique intelligente</h2>
-              <p class="portfolio-category">Particulier | Technique</p>
-              <p>Installation d'un système domotique complet pour une maison connectée et économe en énergie.</p>
-              <a href="#" class="portfolio-link">Voir le projet</a>
-            </div>
-          </div>
-          
-          <div class="portfolio-item" data-category="professionnel design">
-            <div class="portfolio-image" style="background-image: url('/api/placeholder/600/400')"></div>
-            <div class="portfolio-details">
-              <h2>Identité visuelle</h2>
-              <p class="portfolio-category">Professionnel | Design</p>
-              <p>Création complète de l'identité visuelle d'une startup innovante dans le secteur de la santé.</p>
-              <a href="#" class="portfolio-link">Voir le projet</a>
-            </div>
-          </div>
-          
-          <div class="portfolio-item" data-category="professionnel technique">
-            <div class="portfolio-image" style="background-image: url('/api/placeholder/600/400')"></div>
-            <div class="portfolio-details">
-              <h2>Application mobile</h2>
-              <p class="portfolio-category">Professionnel | Technique</p>
-              <p>Conception et développement d'une application mobile pour faciliter la relation client.</p>
-              <a href="#" class="portfolio-link">Voir le projet</a>
-            </div>
-          </div>
-          
-          <div class="portfolio-item" data-category="particulier design">
-            <div class="portfolio-image" style="background-image: url('/api/placeholder/600/400')"></div>
-            <div class="portfolio-details">
-              <h2>Aménagement extérieur</h2>
-              <p class="portfolio-category">Particulier | Design</p>
-              <p>Création d'un espace extérieur convivial et harmonieux pour profiter pleinement du jardin.</p>
-              <a href="#" class="portfolio-link">Voir le projet</a>
-            </div>
-          </div>
-        </div>
-        
-        <div class="testimonials">
-          <h2>Ce que nos clients disent de nous</h2>
-          <div class="testimonial-slider">
-            <div class="testimonial">
-              <p class="testimonial-text">"Une équipe professionnelle et à l'écoute qui a su parfaitement comprendre nos besoins. Nous sommes ravis du résultat !"</p>
-              <p class="testimonial-author">— Sophie L., Directrice Marketing</p>
-            </div>
-            <div class="testimonial">
-              <p class="testimonial-text">"Grâce à leur expertise, notre projet a été réalisé dans les délais et le budget prévus. Je recommande vivement leurs services."</p>
-              <p class="testimonial-author">— Marc D., Particulier</p>
-            </div>
-            <div class="testimonial">
-              <p class="testimonial-text">"Des professionnels créatifs et rigoureux qui ont transformé notre vision en réalité. Un grand merci à toute l'équipe !"</p>
-              <p class="testimonial-author">— Julie M., Entrepreneur</p>
-            </div>
-          </div>
-        </div>
-      </div>
+
+            <!-- Section Avant-Projets -->
+            <section class="portfolio-section">
+                <h2 class="section-title">Avant-Projets</h2>
+                <div class="portfolio-grid">
+                    <article class="portfolio-card">
+                        <div class="card-image" style="background-image: url('https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg')">
+                            <div class="card-overlay">
+                                <h3>Maison individuelle moderne</h3>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <h3>Maison individuelle moderne</h3>
+                            <p>Conception d'un avant-projet pour une maison individuelle avec des espaces optimisés et un design contemporain.</p>
+                            <a href="#" class="card-button">Voir le projet</a>
+                        </div>
+                    </article>
+                </div>
+            </section>
+
+            <!-- Section Permis de construire -->
+            <section class="portfolio-section">
+                <h2 class="section-title">Permis de construire</h2>
+                <div class="portfolio-grid">
+                    <article class="portfolio-card">
+                        <div class="card-image" style="background-image: url('https://images.pexels.com/photos/259588/pexels-photo-259588.jpeg')">
+                            <div class="card-overlay">
+                                <h3>Extension de maison</h3>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <h3>Extension de maison</h3>
+                            <p>Réalisation d'un dossier complet de permis de construire pour une extension de maison familiale.</p>
+                            <a href="permis.html" class="card-button">Voir le projet</a>
+                        </div>
+                    </article>
+                </div>
+            </section>
+
+            <section class="testimonials">
+                <h2 class="section-title">Ce que nos clients disent de nous</h2>
+                <div class="testimonial-slider">
+                    <div class="testimonial-track">
+                        <div class="testimonial">
+                            <div class="testimonial-content">
+                                <div class="testimonial-stars">★★★★★</div>
+                                <p class="testimonial-text">"Une équipe professionnelle et à l'écoute qui a su parfaitement comprendre nos besoins. Nous sommes ravis du résultat !"</p>
+                                <p class="testimonial-author">— Sophie L., Directrice Marketing</p>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="slider-nav prev" aria-label="Précédent">‹</button>
+                    <button class="slider-nav next" aria-label="Suivant">›</button>
+                    <div class="slider-dots"></div>
+                </div>
+            </section>
+        </main>
     </div>
-  </div>
-  
-  <script src="main.js"></script>
-  <script src="portfolio.js"></script>
+
+    <script src="main.js"></script>
 </body>
 </html>

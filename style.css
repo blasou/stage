@@ -157,3 +157,58 @@ p {
   text-align: center;
   max-width: 42rem;
 }
+
+/* Bannière de cookies - Style centré avec animation */
+.cookie-banner {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  background: linear-gradient(90deg, #ff6b6b, #ffd93d);
+  color: #ffffff;
+  padding: 2rem;
+  text-align: center;
+  z-index: 100;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  font-size: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  animation: fadeInScale 0.5s forwards ease-out;
+}
+
+.cookie-banner a {
+  color: #ffffff;
+  text-decoration: underline;
+  font-weight: 600;
+}
+
+.cookie-banner button {
+  background-color: #ffffff;
+  color: #ff6b6b;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.cookie-banner button:hover {
+  background-color: #ffd93d;
+  color: #ffffff;
+}
+
+/* Animation pour l'apparition de la bannière */
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}

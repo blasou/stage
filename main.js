@@ -102,6 +102,19 @@ function animateLogo() {
   updatePosition();
 }
 
+// Gestion de la bannière de cookies
+function acceptCookies() {
+  document.getElementById('cookie-banner').style.display = 'none';
+  localStorage.setItem('cookiesAccepted', 'true');
+}
+
+// Vérification si l'utilisateur a déjà accepté les cookies
+document.addEventListener('DOMContentLoaded', () => {
+  if (localStorage.getItem('cookiesAccepted') === 'true') {
+    document.getElementById('cookie-banner').style.display = 'none';
+  }
+});
+
 // Lancer l'animation du logo une fois le DOM chargé
 document.addEventListener('DOMContentLoaded', () => {
   animateLogo();

@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Permis de construire - Documents</title>
+    <style>
+        /* Reset et base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-gradient: linear-gradient(135deg, #64b5f6, #e57373);
+            --text-light: #ffffff;
+            --text-dark: #333333;
+            --overlay-dark: rgba(0, 0, 0, 0.75);
+            --card-bg: rgba(30, 30, 30, 0.8);
+            --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            line-height: 1.5;
+            color: var(--text-light);
+            background: #1a1a1a;
+            min-height: 100vh;
+        }
+
+        .container {
+            position: relative;
+            min-height: 100vh;
+            overflow-x: hidden;
+            padding: 2rem;
+        }
+
+        /* Image de fond */
+        .background-image {
+            position: fixed;
+            inset: 0;
+            background-image: url("https://images.pexels.com/photos/323780/pexels-photo-323780.jpeg");
+            background-size: cover;
+            background-position: center;
+            filter: brightness(0.2) blur(2px);
+            z-index: -1;
+        }
+
+        /* En-tête */
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .main-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .breadcrumb {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .breadcrumb a {
+            color: var(--text-light);
+            opacity: 0.7;
+            text-decoration: none;
+            transition: var(--transition-smooth);
+        }
+
+        .breadcrumb a:hover {
+            opacity: 1;
+        }
+
+        .breadcrumb .separator {
+            opacity: 0.5;
+        }
+
+        .description {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        /* Grille de documents */
+        .document-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .document-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transition: var(--transition-smooth);
+            animation: fadeInUp 0.6s forwards;
+            animation-delay: calc(var(--index) * 0.1s);
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .document-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .document-preview {
+            height: 200px;
+            background-color: #2a2a2a;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .document-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .document-preview .pdf-icon {
+            font-size: 4rem;
+            color: #e53935;
+        }
+
+        .document-info {
+            padding: 1.5rem;
+        }
+
+        .document-title {
+            margin-bottom: 1rem;
+            font-size: 1.25rem;
+        }
+
+        .document-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .document-button {
+            flex: 1;
+            padding: 0.75rem;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .view-button {
+            background: var(--primary-gradient);
+            color: white;
+        }
+
+        .download-button {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .document-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Pied de page */
+        footer {
+            text-align: center;
+            margin-top: 3rem;
+            padding: 2rem 0;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .main-title {
+                font-size: 2rem;
+            }
+            
+            .document-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                gap: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="background-image"></div>
+        
+        <header>
+            <h1 class="main-title">Permis de construire</h1>
+            <div class="breadcrumb">
+                <a href="/">Accueil</a>
+                <span class="separator">/</span>
+                <a href="/realisations.html">Réalisations</a>
+                <span class="separator">/</span>
+                <span>Permis de construire</span>
+            </div>
+            <p class="description">
+                Découvrez nos documents de permis de construire pour le projet "Extension de maison". 
+                Ces documents illustrent notre expertise dans l'élaboration des dossiers administratifs conformes aux réglementations.
+            </p>
+        </header>
+        
+        <main>
+            <div class="document-grid">
+                <!-- Document 1 -->
+                <div class="document-card" style="--index: 1">
+                    <div class="document-preview">
+                        <div class="pdf-icon">📄</div>
+                    </div>
+                    <div class="document-info">
+                        <h3 class="document-title">Plan de situation</h3>
+                        <div class="document-buttons">
+                            <a href="realisation/permis/permis1/1.pdf" class="document-button view-button" target="_blank">Consulter</a>
+                            <a href="realisation/permis/permis1/1.pdf" class="document-button download-button" download>Télécharger</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Document 2 -->
+                <div class="document-card" style="--index: 2">
+                    <div class="document-preview">
+                        <div class="pdf-icon">📄</div>
+                    </div>
+                    <div class="document-info">
+                        <h3 class="document-title">Plan de masse</h3>
+                        <div class="document-buttons">
+                            <a href="realisation/permis/permis1/2.pdf" class="document-button view-button" target="_blank">Consulter</a>
+                            <a href="realisation/permis/permis1/2.pdf" class="document-button download-button" download>Télécharger</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Document 3 -->
+                <div class="document-card" style="--index: 3">
+                    <div class="document-preview">
+                        <div class="pdf-icon">📄</div>
+                    </div>
+                    <div class="document-info">
+                        <h3 class="document-title">Coupe du terrain</h3>
+                        <div class="document-buttons">
+                            <a href="realisation/permis/permis1/3.pdf" class="document-button view-button" target="_blank">Consulter</a>
+                            <a href="realisation/permis/permis1/3.pdf" class="document-button download-button" download>Télécharger</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Document 4 -->
+                <div class="document-card" style="--index: 4">
+                    <div class="document-preview">
+                        <div class="pdf-icon">📄</div>
+                    </div>
+                    <div class="document-info">
+                        <h3 class="document-title">Notice descriptive</h3>
+                        <div class="document-buttons">
+                            <a href="realisation/permis/permis1/4.pdf" class="document-button view-button" target="_blank">Consulter</a>
+                            <a href="realisation/permis/permis1/4.pdf" class="document-button download-button" download>Télécharger</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Document 5 -->
+                <div class="document-card" style="--index: 5">
+                    <div class="document-preview">
+                        <div class="pdf-icon">📄</div>
+                    </div>
+                    <div class="document-info">
+                        <h3 class="document-title">Plan des façades</h3>
+                        <div class="document-buttons">
+                            <a href="realisation/permis/permis1/5.pdf" class="document-button view-button" target="_blank">Consulter</a>
+                            <a href="realisation/permis/permis1/5.pdf" class="document-button download-button" download>Télécharger</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Document 6 -->
+                <div class="document-card" style="--index: 6">
+                    <div class="document-preview">
+                        <div class="pdf-icon">📄</div>
+                    </div>
+                    <div class="document-info">
+                        <h3 class="document-title">Plan de toiture</h3>
+                        <div class="document-buttons">
+                            <a href="realisation/permis/permis1/6.pdf" class="document-button view-button" target="_blank">Consulter</a>
+                            <a href="realisation/permis/permis1/6.pdf" class="document-button download-button" download>Télécharger</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Document 7 -->
+                <div class="document-card" style="--index: 7">
+                    <div class="document-preview">
+                        <div class="pdf-icon">📄</div>
+                    </div>
+                    <div class="document-info">
+                        <h3 class="document-title">Insertion paysagère</h3>
+                        <div class="document-buttons">
+                            <a href="realisation/permis/permis1/7.pdf" class="document-button view-button" target="_blank">Consulter</a>
+                            <a href="realisation/permis/permis1/7.pdf" class="document-button download-button" download>Télécharger</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Document 8 -->
+                <div class="document-card" style="--index: 8">
+                    <div class="document-preview">
+                        <div class="pdf-icon">📄</div>
+                    </div>
+                    <div class="document-info">
+                        <h3 class="document-title">Plan technique RDC</h3>
+                        <div class="document-buttons">
+                            <a href="realisation/permis/permis1/8.pdf" class="document-button view-button" target="_blank">Consulter</a>
+                            <a href="realisation/permis/permis1/8.pdf" class="document-button download-button" download>Télécharger</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Document 9 -->
+                <div class="document-card" style="--index: 9">
+                    <div class="document-preview">
+                        <div class="pdf-icon">📄</div>
+                    </div>
+                    <div class="document-info">
+                        <h3 class="document-title">Plan technique étage</h3>
+                        <div class="document-buttons">
+                            <a href="realisation/permis/permis1/9.pdf" class="document-button view-button" target="_blank">Consulter</a>
+                            <a href="realisation/permis/permis1/9.pdf" class="document-button download-button" download>Télécharger</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Document 10 -->
+                <div class="document-card" style="--index: 10">
+                    <div class="document-preview">
+                        <div class="pdf-icon">📄</div>
+                    </div>
+                    <div class="document-info">
+                        <h3 class="document-title">RT 2020 - Étude thermique</h3>
+                        <div class="document-buttons">
+                            <a href="realisation/permis/permis1/10.pdf" class="document-button view-button" target="_blank">Consulter</a>
+                            <a href="realisation/permis/permis1/10.pdf" class="document-button download-button" download>Télécharger</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Document 11 -->
+                <div class="document-card" style="--index: 11">
+                    <div class="document-preview">
+                        <div class="pdf-icon">📄</div>
+                    </div>
+                    <div class="document-info">
+                        <h3 class="document-title">Annexe accessibilité</h3>
+                        <div class="document-buttons">
+                            <a href="realisation/permis/permis1/11.pdf" class="document-button view-button" target="_blank">Consulter</a>
+                            <a href="realisation/permis/permis1/11.pdf" class="document-button download-button" download>Télécharger</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Document 12 -->
+                <div class="document-card" style="--index: 12">
+                    <div class="document-preview">
+                        <div class="pdf-icon">📄</div>
+                    </div>
+                    <div class="document-info">
+                        <h3 class="document-title">Étude de sol</h3>
+                        <div class="document-buttons">
+                            <a href="realisation/permis/permis1/12.pdf" class="document-button view-button" target="_blank">Consulter</a>
+                            <a href="realisation/permis/permis1/12.pdf" class="document-button download-button" download>Télécharger</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Document 13 -->
+                <div class="document-card" style="--index: 13">
+                    <div class="document-preview">
+                        <div class="pdf-icon">📄</div>
+                    </div>
+                    <div class="document-info">
+                        <h3 class="document-title">CERFA</h3>
+                        <div class="document-buttons">
+                            <a href="realisation/permis/permis1/13.pdf" class="document-button view-button" target="_blank">Consulter</a>
+                            <a href="realisation/permis/permis1/13.pdf" class="document-button download-button" download>Télécharger</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Document 14 -->
+                <div class="document-card" style="--index: 14">
+                    <div class="document-preview">
+                        <div class="pdf-icon">📄</div>
+                    </div>
+                    <div class="document-info">
+                        <h3 class="document-title">Perspectives 3D</h3>
+                        <div class="document-buttons">
+                            <a href="realisation/permis/permis1/14.pdf" class="document-button view-button" target="_blank">Consulter</a>
+                            <a href="realisation/permis/permis1/14.pdf" class="document-button download-button" download>Télécharger</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Document 15 -->
+                <div class="document-card" style="--index: 15">
+                    <div class="document-preview">
+                        <div class="pdf-icon">📄</div>
+                    </div>
+                    <div class="document-info">
+                        <h3 class="document-title">Récépissé du dépôt</h3>
+                        <div class="document-buttons">
+                            <a href="realisation/permis/permis1/15.pdf" class="document-button view-button" target="_blank">Consulter</a>
+                            <a href="realisation/permis/permis1/15.pdf" class="document-button download-button" download>Télécharger</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+        <footer>
+            <p>&copy; 2025 Pour tous et notre projet de vie. Tous droits réservés.</p>
+        </footer>
+    </div>
+    
+    <script>
+        // Animation pour afficher les cartes progressivement
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.document-card');
+            cards.forEach(card => {
+                card.style.animationDelay = `${parseFloat(card.style.getPropertyValue('--index')) * 0.05}s`;
+            });
+        });
+    </script>
+</body>
+</html>

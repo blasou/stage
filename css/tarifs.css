@@ -1,5 +1,3 @@
-/* pricing.css - Styles pour la page "Grille tarifs" */
-
 /* Styles de base */
 * {
   margin: 0;
@@ -10,105 +8,113 @@
 
 /* Menu styles */
 .menu-button {
-    position: fixed;
-    top: 1rem;
-    right: 1rem;
-    z-index: 50;
-  }
-  
-  .menu-trigger {
-    background-color: #ffffff;
-    padding: 0.75rem;
-    border-radius: 9999px;
-    border: none;
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-    cursor: pointer;
-    transition: all 0.3s ease;
-  }
-  
-  .menu-trigger:hover {
-    background-color: #f3f4f6;
-    transform: scale(1.05);
-  }
-  
-  .circular-menu {
-    position: fixed;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: rgba(0, 0, 0, 0.9);
-    z-index: 40;
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 50;
+}
+
+.menu-trigger {
+  background-color: #ffffff;
+  padding: 0.75rem;
+  border-radius: 9999px;
+  border: none;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.menu-trigger:hover {
+  background-color: #f3f4f6;
+  transform: scale(1.05);
+}
+
+.circular-menu {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.9);
+  z-index: 40;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.circular-menu.fade-in {
+  opacity: 1;
+}
+
+.circular-menu.hidden {
+  display: none;
+}
+
+.menu-container {
+  position: relative;
+  width: 500px;
+  height: 500px;
+}
+
+.menu-item {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 1rem;
+  border-radius: 9999px;
+  border: none;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: all 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  width: 8rem;
+}
+
+/* Animation d'entrée pour les items du menu */
+.menu-item-hidden {
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.3);
+}
+
+.menu-item-visible {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.menu-item:hover {
+  transform: translate(-50%, -50%) scale(1.1);
+  background-color: #f9fafb;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+.menu-item span {
+  font-size: 0.875rem;
+  white-space: nowrap;
+}
+
+.close-button {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  color: white;
+  font-size: 1.5rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  opacity: 0;
+  animation: fadeIn 0.5s ease 0.5s forwards;
+}
+
+@keyframes fadeIn {
+  from {
     opacity: 0;
-    transition: opacity 0.5s ease;
   }
-  
-  .circular-menu.fade-in {
+  to {
     opacity: 1;
   }
-  
-  .circular-menu.hidden {
-    display: none;
-  }
-  
-  .menu-container {
-    position: relative;
-    width: 500px;
-    height: 500px;
-  }
-  
-  .menu-item {
-    position: absolute;
-    transform: translate(-50%, -50%);
-    background-color: white;
-    padding: 1rem;
-    border-radius: 9999px;
-    border: none;
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-    cursor: pointer;
-    transition: all 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.5rem;
-    width: 8rem;
-  }
-  
-  /* Animation d'entrée pour les items du menu */
-  .menu-item-hidden {
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(0.3);
-  }
-  
-  .menu-item-visible {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
-  }
-  
-  .menu-item:hover {
-    transform: translate(-50%, -50%) scale(1.1);
-    background-color: #f9fafb;
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-  }
-  
-  .menu-item span {
-    font-size: 0.875rem;
-    white-space: nowrap;
-  }
-  
-  .close-button {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    color: white;
-    font-size: 1.5rem;
-    background: none;
-    border: none;
-    cursor: pointer;
-    opacity: 0;
-    animation: fadeIn 0.5s ease 0.5s forwards;
-  }
-  
+}
 
 .container {
   min-height: 100vh;
@@ -124,6 +130,17 @@
   background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
   background-size: cover;
   background-position: center;
+}
+
+.page-content {
+  position: relative;
+  z-index: 1;
+  padding: 6rem 2rem;
+}
+
+.content-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 /* Titre principal */
@@ -178,81 +195,6 @@ h1::after {
   color: rgba(255, 255, 255, 0.9);
 }
 
-/* Toggle pour basculer entre particuliers et professionnels */
-.pricing-toggle {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 3rem;
-  opacity: 0;
-  animation: fadeInUp 1s ease 0.4s forwards;
-}
-
-.toggle-label {
-  color: rgba(255, 255, 255, 0.7);
-  font-size: 1.1rem;
-  padding: 0 1rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.toggle-label.active {
-  color: #fff;
-  font-weight: 600;
-}
-
-/* Style du switch */
-.switch {
-  position: relative;
-  display: inline-block;
-  width: 60px;
-  height: 34px;
-}
-
-.switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-.slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(255, 255, 255, 0.2);
-  transition: .4s;
-}
-
-.slider:before {
-  position: absolute;
-  content: "";
-  height: 26px;
-  width: 26px;
-  left: 4px;
-  bottom: 4px;
-  background-color: white;
-  transition: .4s;
-}
-
-input:checked + .slider {
-  background-color: #ff6b6b;
-}
-
-input:checked + .slider:before {
-  transform: translateX(26px);
-}
-
-.slider.round {
-  border-radius: 34px;
-}
-
-.slider.round:before {
-  border-radius: 50%;
-}
-
 /* Grilles des prix */
 .pricing-grid {
   display: grid;
@@ -260,7 +202,7 @@ input:checked + .slider:before {
   gap: 2.5rem;
   opacity: 0;
   animation: fadeInUp 1s ease 0.5s forwards;
-  display: none;
+  margin-bottom: 2rem;
 }
 
 .pricing-grid.active {
@@ -301,30 +243,6 @@ input:checked + .slider:before {
   opacity: 0.1;
 }
 
-/* Carte populaire mise en avant */
-.pricing-card.popular {
-  transform: scale(1.05);
-  background: rgba(255, 255, 255, 0.08);
-  border: 2px solid rgba(255, 107, 107, 0.3);
-  z-index: 2;
-}
-
-.pricing-card.popular:hover {
-  transform: scale(1.05) translateY(-10px);
-}
-
-.popular-badge {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  background: linear-gradient(90deg, #ff6b6b, #ffd93d);
-  color: #fff;
-  padding: 0.5rem 1rem;
-  border-radius: 20px;
-  font-size: 0.9rem;
-  font-weight: 600;
-}
-
 /* En-tête de la carte */
 .pricing-header {
   margin-bottom: 2rem;
@@ -349,6 +267,12 @@ input:checked + .slider:before {
   color: #fff;
 }
 
+.price-detail {
+  font-size: 1.2rem;
+  color: #fff;
+  margin-bottom: 0.5rem;
+}
+
 .period {
   font-size: 0.9rem;
   color: rgba(255, 255, 255, 0.7);
@@ -369,6 +293,7 @@ input:checked + .slider:before {
   margin-bottom: 0.8rem;
   position: relative;
   padding-left: 1.5rem;
+  text-align: left;
 }
 
 .pricing-features li::before {
@@ -398,11 +323,54 @@ input:checked + .slider:before {
   box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
 }
 
-/* Section FAQ */
-.faq-section {
-  margin-top: 6rem;
+/* Note au bas de la page */
+.info-note {
+  text-align: center;
+  margin: 2rem auto 1rem;
+  color: rgba(255, 255, 255, 0.7);
+  font-style: italic;
+  opacity: 0;
+  animation: fadeInUp 1s ease 0.7s forwards;
+  max-width: 800px;
+}
+
+/* Bouton CGV */
+.cgv-container {
+  display: flex;
+  justify-content: center;
+  margin: 3rem auto;
   opacity: 0;
   animation: fadeInUp 1s ease 0.6s forwards;
+}
+
+.cgv-button {
+  display: inline-block;
+  background: linear-gradient(90deg, #ffd93d, #ff6b6b);
+  color: #ffffff;
+  text-decoration: none;
+  padding: 1rem 3rem;
+  border-radius: 30px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  box-shadow: 0 10px 15px -3px rgba(255, 107, 107, 0.3);
+  transition: all 0.3s ease;
+}
+
+.cgv-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 20px -3px rgba(255, 107, 107, 0.4);
+}
+
+.cgv-button:active {
+  transform: translateY(-1px);
+}
+
+/* Section FAQ */
+.faq-section {
+  margin-top: 4rem;
+  opacity: 0;
+  animation: fadeInUp 1s ease 0.8s forwards;
 }
 
 .faq-section h2 {
@@ -481,16 +449,17 @@ input:checked + .slider:before {
     grid-template-columns: 1fr;
   }
 
-  .pricing-card.popular {
-    transform: scale(1);
-  }
-
-  .pricing-card.popular:hover {
-    transform: translateY(-10px);
-  }
-
   .faq-section h2 {
     font-size: 2rem;
+  }
+  
+  h1 {
+    font-size: 3rem;
+  }
+  
+  .cgv-button {
+    padding: 0.8rem 2.5rem;
+    font-size: 1.1rem;
   }
 }
 
@@ -498,22 +467,17 @@ input:checked + .slider:before {
   .pricing-intro p {
     font-size: 1rem;
   }
-
-  .toggle-label {
-    font-size: 0.9rem;
+  
+  h1 {
+    font-size: 2.5rem;
   }
-
-  .switch {
-    width: 50px;
-    height: 28px;
+  
+  .page-content {
+    padding: 4rem 1rem;
   }
-
-  .slider:before {
-    height: 20px;
-    width: 20px;
-  }
-
-  input:checked + .slider:before {
-    transform: translateX(22px);
+  
+  .cgv-button {
+    padding: 0.7rem 2rem;
+    font-size: 1rem;
   }
 }
