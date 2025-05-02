@@ -3,17 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Permis de construire - Documents</title>
+    <title>Permis de construire - Projets</title>
     <style>
-        /* Reset et base */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
         }
 
         :root {
             --primary-gradient: linear-gradient(135deg, #64b5f6, #e57373);
+            --accent-color: #64b5f6;
+            --second-accent: #e57373;
             --text-light: #ffffff;
             --text-dark: #333333;
             --overlay-dark: rgba(0, 0, 0, 0.75);
@@ -36,7 +41,6 @@
             padding: 2rem;
         }
 
-        /* Image de fond */
         .background-image {
             position: fixed;
             inset: 0;
@@ -47,7 +51,6 @@
             z-index: -1;
         }
 
-        /* En-tête */
         header {
             text-align: center;
             margin-bottom: 3rem;
@@ -57,6 +60,11 @@
             font-size: 2.5rem;
             margin-bottom: 1rem;
             font-weight: 700;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            display: inline-block;
         }
 
         .breadcrumb {
@@ -89,13 +97,73 @@
             line-height: 1.6;
         }
 
-        /* Grille de documents */
+        /* Projects section */
+        .projects-section {
+            max-width: 1200px;
+            margin: 4rem auto;
+        }
+
+        .projects-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2rem;
+            gap: 1rem;
+        }
+
+        .project-tab {
+            padding: 0.75rem 1.5rem;
+            background: rgba(50, 50, 50, 0.5);
+            border: 2px solid transparent;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition-smooth);
+        }
+
+        .project-tab.active {
+            border-color: var(--accent-color);
+            background: rgba(100, 181, 246, 0.2);
+        }
+
+        .project-tab:hover:not(.active) {
+            background: rgba(70, 70, 70, 0.7);
+        }
+
+        .project-tab:nth-child(2).active {
+            border-color: var(--second-accent);
+            background: rgba(229, 115, 115, 0.2);
+        }
+
+        .project-content {
+            display: none;
+        }
+
+        .project-content.active {
+            display: block;
+            animation: fadeIn 0.6s forwards;
+        }
+
+        .project-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .project-title {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .project-subtitle {
+            font-size: 1.1rem;
+            opacity: 0.8;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
         .document-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
             gap: 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
         }
 
         .document-card {
@@ -108,6 +176,13 @@
             animation-delay: calc(var(--index) * 0.1s);
             opacity: 0;
             transform: translateY(20px);
+            cursor: pointer;
+            position: relative;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
         @keyframes fadeInUp {
@@ -119,6 +194,27 @@
 
         .document-card:hover {
             transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+        }
+
+        .document-card:hover .document-preview img {
+            transform: scale(1.05);
+        }
+
+        .document-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--primary-gradient);
+            opacity: 0;
+            transition: var(--transition-smooth);
+        }
+
+        .document-card:hover::before {
+            opacity: 1;
         }
 
         .document-preview {
@@ -135,11 +231,8 @@
             width: 100%;
             height: 100%;
             object-fit: contain;
-        }
-
-        .document-preview .pdf-icon {
-            font-size: 4rem;
-            color: #e53935;
+            pointer-events: none;
+            transition: var(--transition-smooth);
         }
 
         .document-info {
@@ -147,53 +240,87 @@
         }
 
         .document-title {
-            margin-bottom: 1rem;
+            margin-bottom: 0.5rem;
             font-size: 1.25rem;
         }
 
-        .document-buttons {
+        .document-description {
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        /* Modal styles */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
             display: flex;
-            gap: 1rem;
-            margin-top: 1rem;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease-in-out;
+            z-index: 1000;
         }
 
-        .document-button {
-            flex: 1;
-            padding: 0.75rem;
-            border: none;
-            border-radius: 6px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition-smooth);
+        .modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            max-width: 90%;
+            max-height: 90vh;
+            transform: scale(0.8);
+            transition: transform 0.3s ease-in-out;
+            position: relative;
+        }
+
+        .modal.active .modal-content {
+            transform: scale(1);
+        }
+
+        .modal img {
+            max-width: 100%;
+            max-height: 90vh;
+            object-fit: contain;
+            pointer-events: none;
+            border-radius: 8px;
+            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-caption {
+            position: absolute;
+            bottom: -40px;
+            left: 0;
+            width: 100%;
             text-align: center;
-            text-decoration: none;
-            display: inline-block;
-        }
-
-        .view-button {
-            background: var(--primary-gradient);
             color: white;
+            font-size: 1.2rem;
         }
 
-        .download-button {
-            background: rgba(255, 255, 255, 0.1);
+        .close-btn {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            background: none;
+            border: none;
             color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
         }
 
-        .document-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-        }
-
-        /* Pied de page */
         footer {
             text-align: center;
             margin-top: 3rem;
             padding: 2rem 0;
             color: rgba(255, 255, 255, 0.6);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        /* Responsive */
         @media (max-width: 768px) {
             .container {
                 padding: 1rem;
@@ -207,6 +334,17 @@
                 grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
                 gap: 1.5rem;
             }
+
+            .projects-tabs {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .project-tab {
+                width: 100%;
+                max-width: 300px;
+                text-align: center;
+            }
         }
     </style>
 </head>
@@ -216,6 +354,7 @@
         
         <header>
             <h1 class="main-title">Permis de construire</h1>
+            
             <div class="breadcrumb">
                 <a href="/">Accueil</a>
                 <span class="separator">/</span>
@@ -223,237 +362,377 @@
                 <span class="separator">/</span>
                 <span>Permis de construire</span>
             </div>
+            
             <p class="description">
-                Découvrez nos documents de permis de construire pour le projet "Extension de maison". 
+                Découvrez nos documents de permis de construire pour nos différents projets.
                 Ces documents illustrent notre expertise dans l'élaboration des dossiers administratifs conformes aux réglementations.
             </p>
         </header>
         
         <main>
-            <div class="document-grid">
-                <!-- Document 1 -->
-                <div class="document-card" style="--index: 1">
-                    <div class="document-preview">
-                        <div class="pdf-icon">📄</div>
+            <section class="projects-section">
+                <div class="projects-tabs">
+                    <div class="project-tab active" data-project="projet1">Extension de maison</div>
+                    <div class="project-tab" data-project="projet2">Résidence moderne</div>
+                </div>
+
+                <div class="project-content active" id="projet1">
+                    <div class="project-header">
+                        <h2 class="project-title">Extension de maison individuelle</h2>
+                        <p class="project-subtitle">Projet d'extension d'une maison existante avec ajout d'un étage et réaménagement du rez-de-chaussée</p>
                     </div>
-                    <div class="document-info">
-                        <h3 class="document-title">Plan de situation</h3>
-                        <div class="document-buttons">
-                            <a href="realisation/permis/permis1/1.pdf" class="document-button view-button" target="_blank">Consulter</a>
-                            <a href="realisation/permis/permis1/1.pdf" class="document-button download-button" download>Télécharger</a>
+
+                    <div class="document-grid">
+                        <div class="document-card" style="--index: 0">
+                            <div class="document-preview">
+                                <img src="realisation/permis/permis1/1.png" alt="Plan de situation" class="document-preview-image">
+                            </div>
+                            <div class="document-info">
+                                <h3 class="document-title">Plan de situation</h3>
+                                <p class="document-description">Localisation du projet dans son environnement</p>
+                            </div>
+                        </div>
+
+                        <div class="document-card" style="--index: 1">
+                            <div class="document-preview">
+                                <img src="realisation/permis/permis1/2.png" alt="Plan de masse" class="document-preview-image">
+                            </div>
+                            <div class="document-info">
+                                <h3 class="document-title">Plan de masse</h3>
+                                <p class="document-description">Vue d'ensemble du terrain et des constructions</p>
+                            </div>
+                        </div>
+
+                        <div class="document-card" style="--index: 2">
+                            <div class="document-preview">
+                                <img src="realisation/permis/permis1/3.png" alt="Coupe du terrain" class="document-preview-image">
+                            </div>
+                            <div class="document-info">
+                                <h3 class="document-title">Coupe du terrain</h3>
+                                <p class="document-description">Profil du terrain et de la construction</p>
+                            </div>
+                        </div>
+
+                        <div class="document-card" style="--index: 3">
+                            <div class="document-preview">
+                                <img src="realisation/permis/permis1/4.png" alt="Notice descriptive" class="document-preview-image">
+                            </div>
+                            <div class="document-info">
+                                <h3 class="document-title">Notice descriptive</h3>
+                                <p class="document-description">Description détaillée du projet</p>
+                            </div>
+                        </div>
+
+                        <div class="document-card" style="--index: 4">
+                            <div class="document-preview">
+                                <img src="realisation/permis/permis1/5.png" alt="Plan des façades" class="document-preview-image">
+                            </div>
+                            <div class="document-info">
+                                <h3 class="document-title">Plan des façades</h3>
+                                <p class="document-description">Apparence extérieure du bâtiment</p>
+                            </div>
+                        </div>
+
+                        <div class="document-card" style="--index: 5">
+                            <div class="document-preview">
+                                <img src="realisation/permis/permis1/6.png" alt="Plan de toiture" class="document-preview-image">
+                            </div>
+                            <div class="document-info">
+                                <h3 class="document-title">Plan de toiture</h3>
+                                <p class="document-description">Conception de la toiture et évacuation des eaux</p>
+                            </div>
+                        </div>
+
+                        <div class="document-card" style="--index: 6">
+                            <div class="document-preview">
+                                <img src="realisation/permis/permis1/7.png" alt="Insertion paysagère" class="document-preview-image">
+                            </div>
+                            <div class="document-info">
+                                <h3 class="document-title">Insertion paysagère</h3>
+                                <p class="document-description">Intégration du projet dans son environnement</p>
+                            </div>
+                        </div>
+
+                        <div class="document-card" style="--index: 7">
+                            <div class="document-preview">
+                                <img src="realisation/permis/permis1/8.png" alt="Plan technique RDC" class="document-preview-image">
+                            </div>
+                            <div class="document-info">
+                                <h3 class="document-title">Plan technique RDC</h3>
+                                <p class="document-description">Détails techniques du rez-de-chaussée</p>
+                            </div>
+                        </div>
+
+                        <div class="document-card" style="--index: 8">
+                            <div class="document-preview">
+                                <img src="realisation/permis/permis1/9.png" alt="Plan technique étage" class="document-preview-image">
+                            </div>
+                            <div class="document-info">
+                                <h3 class="document-title">Plan technique étage</h3>
+                                <p class="document-description">Détails techniques de l'étage</p>
+                            </div>
+                        </div>
+
+                        <div class="document-card" style="--index: 9">
+                            <div class="document-preview">
+                                <img src="realisation/permis/permis1/10.png" alt="RT 2020 - Étude thermique" class="document-preview-image">
+                            </div>
+                            <div class="document-info">
+                                <h3 class="document-title">RT 2020 - Étude thermique</h3>
+                                <p class="document-description">Conformité aux normes énergétiques</p>
+                            </div>
+                        </div>
+
+                        <div class="document-card" style="--index: 10">
+                            <div class="document-preview">
+                                <img src="realisation/permis/permis1/11.png" alt="Annexe accessibilité" class="document-preview-image">
+                            </div>
+                            <div class="document-info">
+                                <h3 class="document-title">Annexe accessibilité</h3>
+                                <p class="document-description">Dispositions pour l'accessibilité PMR</p>
+                            </div>
+                        </div>
+
+                        <div class="document-card" style="--index: 11">
+                            <div class="document-preview">
+                                <img src="realisation/permis/permis1/12.png" alt="Étude de sol" class="document-preview-image">
+                            </div>
+                            <div class="document-info">
+                                <h3 class="document-title">Étude de sol</h3>
+                                <p class="document-description">Analyse géotechnique du terrain</p>
+                            </div>
+                        </div>
+
+                        <div class="document-card" style="--index: 12">
+                            <div class="document-preview">
+                                <img src="realisation/permis/permis1/13.png" alt="CERFA" class="document-preview-image">
+                            </div>
+                            <div class="document-info">
+                                <h3 class="document-title">CERFA</h3>
+                                <p class="document-description">Formulaire officiel de demande</p>
+                            </div>
+                        </div>
+
+                        <div class="document-card" style="--index: 13">
+                            <div class="document-preview">
+                                <img src="realisation/permis/permis1/14.png" alt="Perspectives 3D" class="document-preview-image">
+                            </div>
+                            <div class="document-info">
+                                <h3 class="document-title">Perspectives 3D</h3>
+                                <p class="document-description">Visualisations réalistes du projet</p>
+                            </div>
+                        </div>
+
+                        <div class="document-card" style="--index: 14">
+                            <div class="document-preview">
+                                <img src="realisation/permis/permis1/15.png" alt="Récépissé du dépôt" class="document-preview-image">
+                            </div>
+                            <div class="document-info">
+                                <h3 class="document-title">Récépissé du dépôt</h3>
+                                <p class="document-description">Confirmation officielle du dépôt de dossier</p>
+                            </div>
                         </div>
                     </div>
                 </div>
-                
-                <!-- Document 2 -->
-                <div class="document-card" style="--index: 2">
-                    <div class="document-preview">
-                        <div class="pdf-icon">📄</div>
+
+                <div class="project-content" id="projet2">
+                    <div class="project-header">
+                        <h2 class="project-title">Résidence moderne</h2>
+                        <p class="project-subtitle">Construction d'une maison contemporaine à haute performance énergétique</p>
                     </div>
-                    <div class="document-info">
-                        <h3 class="document-title">Plan de masse</h3>
-                        <div class="document-buttons">
-                            <a href="realisation/permis/permis1/2.pdf" class="document-button view-button" target="_blank">Consulter</a>
-                            <a href="realisation/permis/permis1/2.pdf" class="document-button download-button" download>Télécharger</a>
+
+                    <div class="document-grid">
+                        <div class="document-card" style="--index: 0">
+                            <div class="document-preview">
+                                <img src="realisation/permis/permis2/1.png" alt="Plan de situation" class="document-preview-image">
+                            </div>
+                            <div class="document-info">
+                                <h3 class="document-title">Plan de situation</h3>
+                                <p class="document-description">Localisation du projet dans son contexte urbain</p>
+                            </div>
+                        </div>
+
+                        <div class="document-card" style="--index: 1">
+                            <div class="document-preview">
+                                <img src="realisation/permis/permis2/2.png" alt="Plan de masse" class="document-preview-image">
+                            </div>
+                            <div class="document-info">
+                                <h3 class="document-title">Plan de masse</h3>
+                                <p class="document-description">Implantation de la construction sur le terrain</p>
+                            </div>
+                        </div>
+
+                        <div class="document-card" style="--index: 2">
+                            <div class="document-preview">
+                                <img src="realisation/permis/permis2/3.png" alt="Coupe du terrain" class="document-preview-image">
+                            </div>
+                            <div class="document-info">
+                                <h3 class="document-title">Coupe du terrain</h3>
+                                <p class="document-description">Profil altimétrique du terrain et du projet</p>
+                            </div>
+                        </div>
+
+                        <div class="document-card" style="--index: 3">
+                            <div class="document-preview">
+                                <img src="realisation/permis/permis2/4.png" alt="Notice architecturale" class="document-preview-image">
+                            </div>
+                            <div class="document-info">
+                                <h3 class="document-title">Notice architecturale</h3>
+                                <p class="document-description">Description du concept architectural</p>
+                            </div>
+                        </div>
+
+                        <div class="document-card" style="--index: 4">
+                            <div class="document-preview">
+                                <img src="realisation/permis/permis2/5.png" alt="Élévations" class="document-preview-image">
+                            </div>
+                            <div class="document-info">
+                                <h3 class="document-title">Élévations</h3>
+                                <p class="document-description">Vues des façades principales</p>
+                            </div>
+                        </div>
+
+                        <div class="document-card" style="--index: 5">
+                            <div class="document-preview">
+                                <img src="realisation/permis/permis2/6.png" alt="Plan du RDC" class="document-preview-image">
+                            </div>
+                            <div class="document-info">
+                                <h3 class="document-title">Plan du RDC</h3>
+                                <p class="document-description">Aménagement intérieur du rez-de-chaussée</p>
+                            </div>
+                        </div>
+
+                        <div class="document-card" style="--index: 6">
+                            <div class="document-preview">
+                                <img src="realisation/permis/permis2/7.png" alt="Insertion paysagère" class="document-preview-image">
+                            </div>
+                            <div class="document-info">
+                                <h3 class="document-title">Insertion paysagère</h3>
+                                <p class="document-description">Visualisation du projet dans son environnement</p>
+                            </div>
+                        </div>
+
+                        <div class="document-card" style="--index: 7">
+                            <div class="document-preview">
+                                <img src="realisation/permis/permis2/8.png" alt="Étude thermique" class="document-preview-image">
+                            </div>
+                            <div class="document-info">
+                                <h3 class="document-title">Étude thermique</h3>
+                                <p class="document-description">Performance énergétique du bâtiment</p>
+                            </div>
+                        </div>
+
+                        <div class="document-card" style="--index: 8">
+                            <div class="document-preview">
+                                <img src="realisation/permis/permis2/9.png" alt="CERFA" class="document-preview-image">
+                            </div>
+                            <div class="document-info">
+                                <h3 class="document-title">CERFA</h3>
+                                <p class="document-description">Formulaire administratif de demande</p>
+                            </div>
                         </div>
                     </div>
                 </div>
-                
-                <!-- Document 3 -->
-                <div class="document-card" style="--index: 3">
-                    <div class="document-preview">
-                        <div class="pdf-icon">📄</div>
-                    </div>
-                    <div class="document-info">
-                        <h3 class="document-title">Coupe du terrain</h3>
-                        <div class="document-buttons">
-                            <a href="realisation/permis/permis1/3.pdf" class="document-button view-button" target="_blank">Consulter</a>
-                            <a href="realisation/permis/permis1/3.pdf" class="document-button download-button" download>Télécharger</a>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Document 4 -->
-                <div class="document-card" style="--index: 4">
-                    <div class="document-preview">
-                        <div class="pdf-icon">📄</div>
-                    </div>
-                    <div class="document-info">
-                        <h3 class="document-title">Notice descriptive</h3>
-                        <div class="document-buttons">
-                            <a href="realisation/permis/permis1/4.pdf" class="document-button view-button" target="_blank">Consulter</a>
-                            <a href="realisation/permis/permis1/4.pdf" class="document-button download-button" download>Télécharger</a>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Document 5 -->
-                <div class="document-card" style="--index: 5">
-                    <div class="document-preview">
-                        <div class="pdf-icon">📄</div>
-                    </div>
-                    <div class="document-info">
-                        <h3 class="document-title">Plan des façades</h3>
-                        <div class="document-buttons">
-                            <a href="realisation/permis/permis1/5.pdf" class="document-button view-button" target="_blank">Consulter</a>
-                            <a href="realisation/permis/permis1/5.pdf" class="document-button download-button" download>Télécharger</a>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Document 6 -->
-                <div class="document-card" style="--index: 6">
-                    <div class="document-preview">
-                        <div class="pdf-icon">📄</div>
-                    </div>
-                    <div class="document-info">
-                        <h3 class="document-title">Plan de toiture</h3>
-                        <div class="document-buttons">
-                            <a href="realisation/permis/permis1/6.pdf" class="document-button view-button" target="_blank">Consulter</a>
-                            <a href="realisation/permis/permis1/6.pdf" class="document-button download-button" download>Télécharger</a>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Document 7 -->
-                <div class="document-card" style="--index: 7">
-                    <div class="document-preview">
-                        <div class="pdf-icon">📄</div>
-                    </div>
-                    <div class="document-info">
-                        <h3 class="document-title">Insertion paysagère</h3>
-                        <div class="document-buttons">
-                            <a href="realisation/permis/permis1/7.pdf" class="document-button view-button" target="_blank">Consulter</a>
-                            <a href="realisation/permis/permis1/7.pdf" class="document-button download-button" download>Télécharger</a>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Document 8 -->
-                <div class="document-card" style="--index: 8">
-                    <div class="document-preview">
-                        <div class="pdf-icon">📄</div>
-                    </div>
-                    <div class="document-info">
-                        <h3 class="document-title">Plan technique RDC</h3>
-                        <div class="document-buttons">
-                            <a href="realisation/permis/permis1/8.pdf" class="document-button view-button" target="_blank">Consulter</a>
-                            <a href="realisation/permis/permis1/8.pdf" class="document-button download-button" download>Télécharger</a>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Document 9 -->
-                <div class="document-card" style="--index: 9">
-                    <div class="document-preview">
-                        <div class="pdf-icon">📄</div>
-                    </div>
-                    <div class="document-info">
-                        <h3 class="document-title">Plan technique étage</h3>
-                        <div class="document-buttons">
-                            <a href="realisation/permis/permis1/9.pdf" class="document-button view-button" target="_blank">Consulter</a>
-                            <a href="realisation/permis/permis1/9.pdf" class="document-button download-button" download>Télécharger</a>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Document 10 -->
-                <div class="document-card" style="--index: 10">
-                    <div class="document-preview">
-                        <div class="pdf-icon">📄</div>
-                    </div>
-                    <div class="document-info">
-                        <h3 class="document-title">RT 2020 - Étude thermique</h3>
-                        <div class="document-buttons">
-                            <a href="realisation/permis/permis1/10.pdf" class="document-button view-button" target="_blank">Consulter</a>
-                            <a href="realisation/permis/permis1/10.pdf" class="document-button download-button" download>Télécharger</a>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Document 11 -->
-                <div class="document-card" style="--index: 11">
-                    <div class="document-preview">
-                        <div class="pdf-icon">📄</div>
-                    </div>
-                    <div class="document-info">
-                        <h3 class="document-title">Annexe accessibilité</h3>
-                        <div class="document-buttons">
-                            <a href="realisation/permis/permis1/11.pdf" class="document-button view-button" target="_blank">Consulter</a>
-                            <a href="realisation/permis/permis1/11.pdf" class="document-button download-button" download>Télécharger</a>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Document 12 -->
-                <div class="document-card" style="--index: 12">
-                    <div class="document-preview">
-                        <div class="pdf-icon">📄</div>
-                    </div>
-                    <div class="document-info">
-                        <h3 class="document-title">Étude de sol</h3>
-                        <div class="document-buttons">
-                            <a href="realisation/permis/permis1/12.pdf" class="document-button view-button" target="_blank">Consulter</a>
-                            <a href="realisation/permis/permis1/12.pdf" class="document-button download-button" download>Télécharger</a>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Document 13 -->
-                <div class="document-card" style="--index: 13">
-                    <div class="document-preview">
-                        <div class="pdf-icon">📄</div>
-                    </div>
-                    <div class="document-info">
-                        <h3 class="document-title">CERFA</h3>
-                        <div class="document-buttons">
-                            <a href="realisation/permis/permis1/13.pdf" class="document-button view-button" target="_blank">Consulter</a>
-                            <a href="realisation/permis/permis1/13.pdf" class="document-button download-button" download>Télécharger</a>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Document 14 -->
-                <div class="document-card" style="--index: 14">
-                    <div class="document-preview">
-                        <div class="pdf-icon">📄</div>
-                    </div>
-                    <div class="document-info">
-                        <h3 class="document-title">Perspectives 3D</h3>
-                        <div class="document-buttons">
-                            <a href="realisation/permis/permis1/14.pdf" class="document-button view-button" target="_blank">Consulter</a>
-                            <a href="realisation/permis/permis1/14.pdf" class="document-button download-button" download>Télécharger</a>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Document 15 -->
-                <div class="document-card" style="--index: 15">
-                    <div class="document-preview">
-                        <div class="pdf-icon">📄</div>
-                    </div>
-                    <div class="document-info">
-                        <h3 class="document-title">Récépissé du dépôt</h3>
-                        <div class="document-buttons">
-                            <a href="realisation/permis/permis1/15.pdf" class="document-button view-button" target="_blank">Consulter</a>
-                            <a href="realisation/permis/permis1/15.pdf" class="document-button download-button" download>Télécharger</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            </section>
         </main>
         
         <footer>
             <p>&copy; 2025 Pour tous et notre projet de vie. Tous droits réservés.</p>
         </footer>
     </div>
-    
+
+    <div class="modal" id="imageModal">
+        <div class="modal-content">
+            <button class="close-btn">&times;</button>
+            <img src="" alt="" id="modalImage">
+            <div class="modal-caption" id="modalCaption"></div>
+        </div>
+    </div>
+
     <script>
-        // Animation pour afficher les cartes progressivement
         document.addEventListener('DOMContentLoaded', function() {
+            // Tab switching
+            const tabs = document.querySelectorAll('.project-tab');
+            const contents = document.querySelectorAll('.project-content');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const project = this.getAttribute('data-project');
+                    
+                    // Update active tab
+                    tabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Update active content
+                    contents.forEach(content => {
+                        content.classList.remove('active');
+                        if (content.id === project) {
+                            content.classList.add('active');
+                            
+                            // Reset animation for document cards
+                            const cards = content.querySelectorAll('.document-card');
+                            cards.forEach(card => {
+                                card.style.animation = 'none';
+                                card.offsetHeight; // Trigger reflow
+                                card.style.animation = 'fadeInUp 0.6s forwards';
+                                card.style.animationDelay = `calc(${card.style.getPropertyValue('--index')} * 0.1s)`;
+                            });
+                        }
+                    });
+                });
+            });
+            
+            // Modal functionality
+            const modal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('modalImage');
+            const modalCaption = document.getElementById('modalCaption');
+            const closeBtn = document.querySelector('.close-btn');
             const cards = document.querySelectorAll('.document-card');
+
             cards.forEach(card => {
-                card.style.animationDelay = `${parseFloat(card.style.getPropertyValue('--index')) * 0.05}s`;
+                const img = card.querySelector('.document-preview-image');
+                const title = card.querySelector('.document-title').textContent;
+                
+                card.addEventListener('click', function() {
+                    modalImg.src = img.src;
+                    modalImg.alt = img.alt;
+                    modalCaption.textContent = title;
+                    modal.classList.add('active');
+                });
+            });
+
+            closeBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                modal.classList.remove('active');
+            });
+
+            modal.addEventListener('click', function() {
+                modal.classList.remove('active');
+            });
+            
+            modalImg.addEventListener('click', function(e) {
+                e.stopPropagation();
+            });
+
+            // Prevent right-click
+            document.addEventListener('contextmenu', function(e) {
+                e.preventDefault();
+            });
+
+            // Prevent keyboard shortcuts
+            document.addEventListener('keydown', function(e) {
+                if (
+                    (e.ctrlKey && (e.key === 'p' || e.key === 's' || e.key === 'u')) || // Prevent print, save, view source
+                    (e.key === 'PrintScreen') || // Prevent print screen
+                    (e.ctrlKey && e.shiftKey && e.key === 'i') // Prevent inspect element
+                ) {
+                    e.preventDefault();
+                }
+                
+                // Close modal with Escape key
+                if (e.key === 'Escape' && modal.classList.contains('active')) {
+                    modal.classList.remove('active');
+                }
             });
         });
     </script>
