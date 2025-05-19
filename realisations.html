@@ -7,6 +7,20 @@
     <link rel="stylesheet" href="css/realisations.css">
 </head>
 <body>
+      <!-- Navigation circulaire -->
+      <div class="menu-button">
+        <button onclick="toggleMenu()" class="menu-trigger">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+        </button>
+      </div>
+
+      <div id="circular-menu" class="circular-menu hidden">
+        <div class="menu-container">
+          <div class="menu-items"></div>
+        </div>
+        <button onclick="toggleMenu()" class="close-button">×</button>
+      </div>
+
     <div class="container">
         <div class="background-image"></div>
         
@@ -22,15 +36,13 @@
                 <h2 class="section-title">Avant-Projets</h2>
                 <div class="portfolio-grid">
                     <article class="portfolio-card">
-                        <div class="card-image" style="background-image: url('https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg')">
+                        <div class="card-image" style="background-image: url('images/fondap.jpg')">
                             <div class="card-overlay">
-                                <h3>Maison individuelle moderne</h3>
+                                <h3>Avant-Projet Maison individuelle</h3>
                             </div>
                         </div>
                         <div class="card-content">
-                            <h3>Maison individuelle moderne</h3>
-                            <p>Conception d'un avant-projet pour une maison individuelle avec des espaces optimisés et un design contemporain.</p>
-                            <a href="#" class="card-button">Voir le projet</a>
+                            <a href="avantprojet.html" class="card-button">Voir le projet</a>
                         </div>
                     </article>
                 </div>
@@ -41,14 +53,12 @@
                 <h2 class="section-title">Permis de construire</h2>
                 <div class="portfolio-grid">
                     <article class="portfolio-card">
-                        <div class="card-image" style="background-image: url('https://images.pexels.com/photos/259588/pexels-photo-259588.jpeg')">
+                        <div class="card-image" style="background-image: url('images/fondpermis.jpg')">
                             <div class="card-overlay">
-                                <h3>Extension de maison</h3>
+                                <h3>Permis de construire Maisons Individuelle</h3>
                             </div>
                         </div>
                         <div class="card-content">
-                            <h3>Extension de maison</h3>
-                            <p>Réalisation d'un dossier complet de permis de construire pour une extension de maison familiale.</p>
                             <a href="permis.html" class="card-button">Voir le projet</a>
                         </div>
                     </article>

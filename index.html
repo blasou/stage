@@ -1,217 +1,40 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Permis de construire - Documents</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Création d'une page d'accueil moderne</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
     <div class="container">
-        <div class="background-image"></div>
-        
-        <header>
-            <h1 class="main-title">Permis de construire</h1>
-            
-            <div class="breadcrumb">
-                <a href="/">Accueil</a>
-                <span class="separator">/</span>
-                <a href="/realisations.html">Réalisations</a>
-                <span class="separator">/</span>
-                <span>Permis de construire</span>
-            </div>
-            
-            <p class="description">
-                Découvrez nos documents de permis de construire pour le projet "Extension de maison". 
-                Ces documents illustrent notre expertise dans l'élaboration des dossiers administratifs conformes aux réglementations.
-            </p>
-        </header>
-        
-        <main>
-            <div class="document-grid">
-                <div class="document-card" style="--index: 0">
-                    <div class="document-preview">
-                        <img src="realisation/permis/permis1/1.png" alt="Plan de situation" class="document-preview-image">
-                    </div>
-                    <div class="document-info">
-                        <h3 class="document-title">Plan de situation</h3>
-                    </div>
-                </div>
+      <!-- Image de fond -->
+      <div class="background-image"></div>
 
-                <div class="document-card" style="--index: 1">
-                    <div class="document-preview">
-                        <img src="realisation/permis/permis1/2.png" alt="Plan de masse" class="document-preview-image">
-                    </div>
-                    <div class="document-info">
-                        <h3 class="document-title">Plan de masse</h3>
-                    </div>
-                </div>
+      <!-- Navigation circulaire -->
+      <div class="menu-button">
+        <button onclick="toggleMenu()" class="menu-trigger">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+        </button>
+      </div>
 
-                <div class="document-card" style="--index: 2">
-                    <div class="document-preview">
-                        <img src="realisation/permis/permis1/3.png" alt="Coupe du terrain" class="document-preview-image">
-                    </div>
-                    <div class="document-info">
-                        <h3 class="document-title">Coupe du terrain</h3>
-                    </div>
-                </div>
-
-                <div class="document-card" style="--index: 3">
-                    <div class="document-preview">
-                        <img src="realisation/permis/permis1/4.png" alt="Notice descriptive" class="document-preview-image">
-                    </div>
-                    <div class="document-info">
-                        <h3 class="document-title">Notice descriptive</h3>
-                    </div>
-                </div>
-
-                <div class="document-card" style="--index: 4">
-                    <div class="document-preview">
-                        <img src="realisation/permis/permis1/5.png" alt="Plan des façades" class="document-preview-image">
-                    </div>
-                    <div class="document-info">
-                        <h3 class="document-title">Plan des façades</h3>
-                    </div>
-                </div>
-
-                <div class="document-card" style="--index: 5">
-                    <div class="document-preview">
-                        <img src="realisation/permis/permis1/6.png" alt="Plan de toiture" class="document-preview-image">
-                    </div>
-                    <div class="document-info">
-                        <h3 class="document-title">Plan de toiture</h3>
-                    </div>
-                </div>
-
-                <div class="document-card" style="--index: 6">
-                    <div class="document-preview">
-                        <img src="realisation/permis/permis1/7.png" alt="Insertion paysagère" class="document-preview-image">
-                    </div>
-                    <div class="document-info">
-                        <h3 class="document-title">Insertion paysagère</h3>
-                    </div>
-                </div>
-
-                <div class="document-card" style="--index: 7">
-                    <div class="document-preview">
-                        <img src="realisation/permis/permis1/8.png" alt="Plan technique RDC" class="document-preview-image">
-                    </div>
-                    <div class="document-info">
-                        <h3 class="document-title">Plan technique RDC</h3>
-                    </div>
-                </div>
-
-                <div class="document-card" style="--index: 8">
-                    <div class="document-preview">
-                        <img src="realisation/permis/permis1/9.png" alt="Plan technique étage" class="document-preview-image">
-                    </div>
-                    <div class="document-info">
-                        <h3 class="document-title">Plan technique étage</h3>
-                    </div>
-                </div>
-
-                <div class="document-card" style="--index: 9">
-                    <div class="document-preview">
-                        <img src="realisation/permis/permis1/10.png" alt="RT 2020 - Étude thermique" class="document-preview-image">
-                    </div>
-                    <div class="document-info">
-                        <h3 class="document-title">RT 2020 - Étude thermique</h3>
-                    </div>
-                </div>
-
-                <div class="document-card" style="--index: 10">
-                    <div class="document-preview">
-                        <img src="realisation/permis/permis1/11.png" alt="Annexe accessibilité" class="document-preview-image">
-                    </div>
-                    <div class="document-info">
-                        <h3 class="document-title">Annexe accessibilité</h3>
-                    </div>
-                </div>
-
-                <div class="document-card" style="--index: 11">
-                    <div class="document-preview">
-                        <img src="realisation/permis/permis1/12.png" alt="Étude de sol" class="document-preview-image">
-                    </div>
-                    <div class="document-info">
-                        <h3 class="document-title">Étude de sol</h3>
-                    </div>
-                </div>
-
-                <div class="document-card" style="--index: 12">
-                    <div class="document-preview">
-                        <img src="realisation/permis/permis1/13.png" alt="CERFA" class="document-preview-image">
-                    </div>
-                    <div class="document-info">
-                        <h3 class="document-title">CERFA</h3>
-                    </div>
-                </div>
-
-                <div class="document-card" style="--index: 13">
-                    <div class="document-preview">
-                        <img src="realisation/permis/permis1/14.png" alt="Perspectives 3D" class="document-preview-image">
-                    </div>
-                    <div class="document-info">
-                        <h3 class="document-title">Perspectives 3D</h3>
-                    </div>
-                </div>
-
-                <div class="document-card" style="--index: 14">
-                    <div class="document-preview">
-                        <img src="realisation/permis/permis1/15.png" alt="Récépissé du dépôt" class="document-preview-image">
-                    </div>
-                    <div class="document-info">
-                        <h3 class="document-title">Récépissé du dépôt</h3>
-                    </div>
-                </div>
-            </div>
-        </main>
-        
-        <footer>
-            <p>&copy; 2025 Pour tous et notre projet de vie. Tous droits réservés.</p>
-        </footer>
-    </div>
-
-    <div class="modal" id="imageModal">
-        <div class="modal-content">
-            <img src="" alt="" id="modalImage">
+      <div id="circular-menu" class="circular-menu hidden">
+        <div class="menu-container">
+          <div class="menu-items"></div>
         </div>
+        <button onclick="toggleMenu()" class="close-button">×</button>
+      </div>
+
+      <!-- Logo et texte principal -->
+      <div class="main-content">
+        <div id="animated-logo" class="logo">
+          <svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        </div>
+        
+        <h1>Votre Projet, Nos Solutions : Permis de Construire et Tâches Administratives</h1>
+        <p>Nous sommes à votre service particulier ou professionnel</p>
+      </div>
     </div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const modal = document.getElementById('imageModal');
-            const modalImg = document.getElementById('modalImage');
-            const cards = document.querySelectorAll('.document-card');
-
-            cards.forEach(card => {
-                const img = card.querySelector('.document-preview-image');
-                card.addEventListener('click', function() {
-                    modalImg.src = img.src;
-                    modalImg.alt = img.alt;
-                    modal.classList.add('active');
-                });
-            });
-
-            modal.addEventListener('click', function() {
-                modal.classList.remove('active');
-            });
-
-            // Prevent right-click
-            document.addEventListener('contextmenu', function(e) {
-                e.preventDefault();
-            });
-
-            // Prevent keyboard shortcuts
-            document.addEventListener('keydown', function(e) {
-                if (
-                    (e.ctrlKey && (e.key === 'p' || e.key === 's' || e.key === 'u')) || // Prevent print, save, view source
-                    (e.key === 'PrintScreen') || // Prevent print screen
-                    (e.ctrlKey && e.shiftKey && e.key === 'i') // Prevent inspect element
-                ) {
-                    e.preventDefault();
-                }
-            });
-        });
-    </script>
-</body>
+    <script src="main.js"></script>
+  </body>
 </html>

@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Avant-Projet - Projets</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+        }
+
+        :root {
+            --primary-gradient: linear-gradient(135deg, #4CAF50, #8BC34A);
+            --accent-color: #4CAF50;
+            --second-accent: #8BC34A;
+            --text-light: #ffffff;
+            --text-dark: #333333;
+            --overlay-dark: rgba(0, 0, 0, 0.75);
+            --card-bg: rgba(30, 30, 30, 0.8);
+            --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            line-height: 1.5;
+            color: var(--text-light);
+            background: #1a1a1a;
+            min-height: 100vh;
+        }
+
+        .container {
+            position: relative;
+            min-height: 100vh;
+            overflow-x: hidden;
+            padding: 2rem;
+        }
+
+        .background-image {
+            position: fixed;
+            inset: 0;
+            background-image: url("https://images.pexels.com/photos/1769376/pexels-photo-1769376.jpeg");
+            background-size: cover;
+            background-position: center;
+            filter: brightness(0.2) blur(2px);
+            z-index: -1;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .main-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            display: inline-block;
+        }
+
+        .breadcrumb {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .breadcrumb a {
+            color: var(--text-light);
+            opacity: 0.7;
+            text-decoration: none;
+            transition: var(--transition-smooth);
+        }
+
+        .breadcrumb a:hover {
+            opacity: 1;
+        }
+
+        .breadcrumb .separator {
+            opacity: 0.5;
+        }
+
+        .description {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        /* Projects section */
+        .projects-section {
+            max-width: 1200px;
+            margin: 4rem auto;
+        }
+
+        .projects-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2rem;
+            gap: 1rem;
+        }
+
+        .project-tab {
+            padding: 0.75rem 1.5rem;
+            background: rgba(50, 50, 50, 0.5);
+            border: 2px solid transparent;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition-smooth);
+        }
+
+        .project-tab.active {
+            border-color: var(--accent-color);
+            background: rgba(76, 175, 80, 0.2);
+        }
+
+        .project-tab:hover:not(.active) {
+            background: rgba(70, 70, 70, 0.7);
+        }
+
+        .project-tab:nth-child(2).active {
+            border-color: var(--second-accent);
+            background: rgba(139, 195, 74, 0.2);
+        }
+
+        .project-content {
+            display: none;
+        }
+
+        .project-content.active {
+            display: block;
+            animation: fadeIn 0.6s forwards;
+        }
+
+        .project-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .project-title {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .project-subtitle {
+            font-size: 1.1rem;
+            opacity: 0.8;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .document-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .document-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transition: var(--transition-smooth);
+            animation: fadeInUp 0.6s forwards;
+            animation-delay: calc(var(--index) * 0.1s);
+            opacity: 0;
+            transform: translateY(20px);
+            cursor: pointer;
+            position: relative;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .document-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+        }
+
+        .document-card:hover .document-preview img {
+            transform: scale(1.05);
+        }
+
+        .document-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--primary-gradient);
+            opacity: 0;
+            transition: var(--transition-smooth);
+        }
+
+        .document-card:hover::before {
+            opacity: 1;
+        }
+
+        .document-preview {
+            height: 200px;
+            background-color: #2a2a2a;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .document-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            pointer-events: none;
+            transition: var(--transition-smooth);
+        }
+
+        .document-info {
+            padding: 1.5rem;
+        }
+
+        .document-title {
+            margin-bottom: 0.5rem;
+            font-size: 1.25rem;
+        }
+
+        .document-description {
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        /* Modal styles */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease-in-out;
+            z-index: 1000;
+        }
+
+        .modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            max-width: 90%;
+            max-height: 90vh;
+            transform: scale(0.8);
+            transition: transform 0.3s ease-in-out;
+            position: relative;
+        }
+
+        .modal.active .modal-content {
+            transform: scale(1);
+        }
+
+        .modal img {
+            max-width: 100%;
+            max-height: 90vh;
+            object-fit: contain;
+            pointer-events: none;
+            border-radius: 8px;
+            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-caption {
+            position: absolute;
+            bottom: -40px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 3rem;
+            padding: 2rem 0;
+            color: rgba(255, 255, 255, 0.6);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .main-title {
+                font-size: 2rem;
+            }
+            
+            .document-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                gap: 1.5rem;
+            }
+
+            .projects-tabs {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .project-tab {
+                width: 100%;
+                max-width: 300px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="background-image"></div>
+        
+        <header>
+            <h1 class="main-title">Avant-Projet</h1>
+            
+            <div class="breadcrumb">
+                <a href="/">Accueil</a>
+                <span class="separator">/</span>
+                <a href="/realisations.html">Réalisations</a>
+                <span class="separator">/</span>
+                <span>Avant-Projet</span>
+            </div>
+            
+            <p class="description">
+                Découvrez nos documents d'avant-projet pour nos différentes missions.
+            </p>
+        </header>
+        
+        <main>
+            <section class="projects-section">
+                <div class="projects-tabs">
+                    <div class="project-tab active" data-project="projet1">Sérignan</div>
+                    <div class="project-tab" data-project="projet2">Coursan</div>
+                </div>
+
+                <div class="project-content active" id="projet1">
+                    <div class="project-header">
+                        <h2 class="project-title">Avant-Projet Maison Individuelle à étage</h2>
+                    </div>
+
+                    <div class="document-grid">
+                        <div class="document-card" style="--index: 0">
+                            <div class="document-preview">
+                                <img src="realisation/avantprojet/avantprojet1/1.png" alt="Esquisse 1" class="document-preview-image">
+                            </div>
+                            <div class="document-info">
+                                <h3 class="document-title">Plan de masse</h3>
+                            </div>
+                        </div>
+
+                        <div class="document-card" style="--index: 1">
+                            <div class="document-preview">
+                                <img src="realisation/avantprojet/avantprojet1/2.png" alt="Esquisse 2" class="document-preview-image">
+                            </div>
+                            <div class="document-info">
+                                <h3 class="document-title">Plan de cellule 1</h3>
+                            </div>
+                        </div>
+
+                        <div class="document-card" style="--index: 2">
+                            <div class="document-preview">
+                                <img src="realisation/avantprojet/avantprojet1/3.png" alt="Croquis 3" class="document-preview-image">
+                            </div>
+                            <div class="document-info">
+                                <h3 class="document-title">Plan de cellule 2</h3>
+                            </div>
+                        </div>
+
+                        <div class="document-card" style="--index: 3">
+                            <div class="document-preview">
+                                <img src="realisation/avantprojet/avantprojet1/4.png" alt="Concept Final" class="document-preview-image">
+                            </div>
+                            <div class="document-info">
+                                <h3 class="document-title">Visuels 3D</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-content" id="projet2">
+                    <div class="project-header">
+                        <h2 class="project-title">Maison Individuelle de plain pied</h2>
+                       
+                    </div>
+
+                    <div class="document-grid">
+                        <div class="document-card" style="--index: 0">
+                            <div class="document-preview">
+                                <img src="realisation/avantprojet/avantprojet2/1.png" alt="Esquisse 1" class="document-preview-image">
+                            </div>
+                            <div class="document-info">
+                                <h3 class="document-title">Plan de masse</h3>
+                            </div>
+                        </div>
+
+                        <div class="document-card" style="--index: 1">
+                            <div class="document-preview">
+                                <img src="realisation/avantprojet/avantprojet2/2.png" alt="Esquisse 2" class="document-preview-image">
+                            </div>
+                            <div class="document-info">
+                                <h3 class="document-title">Plan de cellule</h3>
+                            </div>
+                        </div>
+
+                        <div class="document-card" style="--index: 2">
+                            <div class="document-preview">
+                                <img src="realisation/avantprojet/avantprojet2/3.png" alt="Croquis 3" class="document-preview-image">
+                            </div>
+                            <div class="document-info">
+                                <h3 class="document-title">Plan de façades 1</h3>
+                            </div>
+                        </div>
+
+                        <div class="document-card" style="--index: 3">
+                            <div class="document-preview">
+                                <img src="realisation/avantprojet/avantprojet2/4.png" alt="Concept Final" class="document-preview-image">
+                            </div>
+                            <div class="document-info">
+                                <h3 class="document-title">Plan de façades 2</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+        
+        <footer>
+            <p>&copy; 2025 Pour tous et notre projet de vie. Tous droits réservés.</p>
+        </footer>
+    </div>
+
+    <div class="modal" id="imageModal">
+        <div class="modal-content">
+            <button class="close-btn">&times;</button>
+            <img src="" alt="" id="modalImage">
+            <div class="modal-caption" id="modalCaption"></div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Tab switching
+            const tabs = document.querySelectorAll('.project-tab');
+            const contents = document.querySelectorAll('.project-content');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const project = this.getAttribute('data-project');
+                    
+                    // Update active tab
+                    tabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Update active content
+                    contents.forEach(content => {
+                        content.classList.remove('active');
+                        if (content.id === project) {
+                            content.classList.add('active');
+                            
+                            // Reset animation for document cards
+                            const cards = content.querySelectorAll('.document-card');
+                            cards.forEach(card => {
+                                card.style.animation = 'none';
+                                card.offsetHeight; // Trigger reflow
+                                card.style.animation = 'fadeInUp 0.6s forwards';
+                                card.style.animationDelay = `calc(${card.style.getPropertyValue('--index')} * 0.1s)`;
+                            });
+                        }
+                    });
+                });
+            });
+            
+            // Modal functionality
+            const modal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('modalImage');
+            const modalCaption = document.getElementById('modalCaption');
+            const closeBtn = document.querySelector('.close-btn');
+            const cards = document.querySelectorAll('.document-card');
+
+            cards.forEach(card => {
+                const img = card.querySelector('.document-preview-image');
+                const title = card.querySelector('.document-title').textContent;
+                
+                card.addEventListener('click', function() {
+                    modalImg.src = img.src;
+                    modalImg.alt = img.alt;
+                    modalCaption.textContent = title;
+                    modal.classList.add('active');
+                });
+            });
+
+            closeBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                modal.classList.remove('active');
+            });
+
+            modal.addEventListener('click', function() {
+                modal.classList.remove('active');
+            });
+            
+            modalImg.addEventListener('click', function(e) {
+                e.stopPropagation();
+            });
+
+            // Prevent right-click
+            document.addEventListener('contextmenu', function(e) {
+                e.preventDefault();
+            });
+
+            // Prevent keyboard shortcuts
+            document.addEventListener('keydown', function(e) {
+                if (
+                    (e.ctrlKey && (e.key === 'p' || e.key === 's' || e.key === 'u')) || // Prevent print, save, view source
+                    (e.key === 'PrintScreen') || // Prevent print screen
+                    (e.ctrlKey && e.shiftKey && e.key === 'i') // Prevent inspect element
+                ) {
+                    e.preventDefault();
+                }
+                
+                // Close modal with Escape key
+                if (e.key === 'Escape' && modal.classList.contains('active')) {
+                    modal.classList.remove('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
