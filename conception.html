@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>De la conception à la réalisation</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Styles de base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* Navigation Architecte - CSS */
+        .menu-button {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .menu-button:hover {
+            transform: scale(1.1);
+            background: rgba(255, 255, 255, 0.25);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .hamburger {
+            width: 24px;
+            height: 24px;
+            position: relative;
+            transition: all 0.4s ease;
+        }
+
+        .hamburger span {
+            display: block;
+            position: absolute;
+            height: 2px;
+            width: 100%;
+            background: white;
+            border-radius: 2px;
+            opacity: 1;
+            left: 0;
+            transform: rotate(0deg);
+            transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .hamburger span:nth-child(1) { top: 0px; }
+        .hamburger span:nth-child(2) { top: 8px; }
+        .hamburger span:nth-child(3) { top: 16px; }
+
+        /* Container principal */
+        .container {
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+        }
+
+        .page-content {
+            position: relative;
+            z-index: 1;
+            padding: 6rem 2rem;
+        }
+
+        .content-wrapper {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Titre principal */
+        h1 {
+            font-size: 4rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #ffffff;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            opacity: 0;
+            animation: fadeInUp 1s ease forwards;
+            position: relative;
+        }
+
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 4px;
+            background: linear-gradient(90deg, #ff6b6b, #ffd93d);
+        }
+
+        .subtitle {
+            text-align: center;
+            font-size: 1.3rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 4rem;
+            opacity: 0;
+            animation: fadeInUp 1s ease 0.3s forwards;
+        }
+
+        /* Animation d'entrée */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Container des projets */
+        .projects-container {
+            display: flex;
+            flex-direction: column;
+            gap: 8rem;
+        }
+
+        /* Projet individuel */
+        .project {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease;
+        }
+
+        .project.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .project-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .project-title {
+            font-size: 2.5rem;
+            color: #ff6b6b;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .project-location {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.7);
+            font-style: italic;
+        }
+
+        /* Timeline des étapes */
+        .timeline {
+            position: relative;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            gap: 8rem;
+            padding: 6rem 0;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Étape individuelle */
+        .timeline-step {
+            position: relative;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 25px;
+            padding: 3rem 2.5rem;
+            width: 400px;
+            text-align: center;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.6s ease;
+            z-index: 2;
+            opacity: 0;
+            transform: translateY(60px) scale(0.9);
+        }
+
+        .timeline-step.animate {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        .timeline-step:hover {
+            transform: translateY(-15px) scale(1.03);
+            background: rgba(255, 255, 255, 0.12);
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Numéro d'étape */
+        .step-number {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #ff6b6b, #ffd93d);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 1.1rem;
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
+        }
+
+        /* Images multiples dans chaque étape */
+        .step-images {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .step-image {
+            width: 100%;
+            height: 160px;
+            background: #333;
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.4s ease;
+        }
+
+        .step-image:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .step-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all 0.3s ease;
+        }
+
+        .step-image:hover img {
+            transform: scale(1.1);
+        }
+
+        /* Placeholder pour les images */
+        .image-placeholder {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.9rem;
+            text-align: center;
+            padding: 1rem;
+        }
+
+        /* Titre et description de l'étape */
+        .step-title {
+            font-size: 1.3rem;
+            color: #fff;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .step-description {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        /* Flèche courbée élégante avec vraie pointe */
+        .curved-arrow {
+            position: absolute;
+            top: 50%;
+            right: -120px;
+            width: 200px;
+            height: 120px;
+            transform: translateY(-50%);
+            z-index: 1;
+            opacity: 0;
+            transition: opacity 0.8s ease;
+        }
+
+        .timeline-step.animate .curved-arrow {
+            opacity: 1;
+        }
+
+        .timeline-step:last-child .curved-arrow {
+            display: none;
+        }
+
+        /* SVG de la flèche courbée */
+        .curved-arrow svg {
+            width: 100%;
+            height: 100%;
+            filter: drop-shadow(0 5px 15px rgba(255, 255, 255, 0.2));
+        }
+
+        .arrow-path {
+            fill: none;
+            stroke: rgba(255, 255, 255, 0.8);
+            stroke-width: 3;
+            stroke-linecap: round;
+            stroke-dasharray: 180;
+            stroke-dashoffset: 180;
+            animation: drawArrowLine 4s ease-in-out infinite;
+        }
+
+        .arrow-head-curved {
+            fill: rgba(255, 255, 255, 0.9);
+            transform-origin: center;
+            opacity: 0;
+            animation: showArrowHead 4s ease-in-out infinite;
+        }
+
+        @keyframes drawArrowLine {
+            0% {
+                stroke-dashoffset: 180;
+                stroke: rgba(255, 255, 255, 0.4);
+            }
+            70% {
+                stroke-dashoffset: 0;
+                stroke: rgba(255, 255, 255, 1);
+            }
+            100% {
+                stroke-dashoffset: 0;
+                stroke: rgba(255, 255, 255, 0.8);
+            }
+        }
+
+        @keyframes showArrowHead {
+            0% {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            70% {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            85% {
+                opacity: 1;
+                transform: scale(1.2);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Modal pour agrandir les images */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(10px);
+        }
+
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        .modal-content img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .close {
+            position: absolute;
+            top: 15px;
+            right: 35px;
+            color: #fff;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 2001;
+        }
+
+        .close:hover {
+            color: #ff6b6b;
+        }
+
+        /* Séparateur entre projets */
+        .project-separator {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #ff6b6b, #ffd93d, transparent);
+            margin: 6rem 0;
+            opacity: 0.3;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .timeline {
+                flex-direction: column;
+                align-items: center;
+                gap: 6rem;
+            }
+
+            .timeline-step {
+                width: 100%;
+                max-width: 450px;
+            }
+
+            .curved-arrow {
+                top: auto;
+                bottom: -80px;
+                right: 50%;
+                left: 50%;
+                transform: translateX(-50%) rotate(90deg);
+                width: 120px;
+                height: 150px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .project-title {
+                font-size: 2rem;
+            }
+
+            .timeline-step {
+                max-width: 350px;
+                padding: 2rem 1.5rem;
+            }
+
+            .step-images {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.8rem;
+            }
+
+            .step-image {
+                height: 120px;
+            }
+
+            .page-content {
+                padding: 4rem 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .subtitle {
+                font-size: 1.1rem;
+            }
+
+            .project-title {
+                font-size: 1.7rem;
+            }
+
+            .timeline-step {
+                max-width: 250px;
+                padding: 1rem;
+            }
+
+            .step-title {
+                font-size: 1.1rem;
+            }
+
+            .step-description {
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Menu Button -->
+        <div class="menu-button">
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+
+        <div class="page-content">
+            <div class="content-wrapper">
+                <h1>De la conception à la réalisation</h1>
+                <p class="subtitle">Découvrez l'évolution complète de nos projets architecturaux, du plan initial à la construction finale</p>
+
+                <div class="projects-container">
+                    <!-- Projet Sérignan -->
+                    <div class="project" data-project="serignan">
+                        <div class="project-header">
+                            <h2 class="project-title">Projet Sérignan</h2>
+                            <p class="project-location">Sérignan, Hérault</p>
+                        </div>
+
+                        <div class="timeline">
+                            <div class="timeline-step" data-step="1">
+                                <div class="step-number">1</div>
+                                <div class="step-images">
+                                    <div class="step-image">
+                                        <div class="image-placeholder">
+                                            Plan de masse<br>
+                                            <small>Vue d'ensemble</small>
+                                        </div>
+                                    </div>
+                                    <div class="step-image">
+                                        <div class="image-placeholder">
+                                            Plans d'étage<br>
+                                            <small>Répartition intérieure</small>
+                                        </div>
+                                    </div>
+                                    <div class="step-image">
+                                        <div class="image-placeholder">
+                                            Façades<br>
+                                            <small>Vues extérieures</small>
+                                        </div>
+                                    </div>
+                                    <div class="step-image">
+                                        <div class="image-placeholder">
+                                            Permis validé<br>
+                                            <small>Autorisation officielle</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <h3 class="step-title">Conception & Permis</h3>
+                                <p class="step-description">Création des plans sur mesure adaptés au terrain, constitution du dossier de permis de construire et suivi administratif.</p>
+                                <div class="curved-arrow">
+                                    <svg viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg">
+                                        <path class="arrow-path" d="M20,60 Q100,20 160,60" />
+                                        <polygon class="arrow-head-curved" points="150,50 170,60 150,70 155,60" />
+                                    </svg>
+                                </div>
+                            </div>
+
+                            <div class="timeline-step" data-step="2">
+                                <div class="step-number">2</div>
+                                <div class="step-images">
+                                    <div class="step-image">
+                                        <div class="image-placeholder">
+                                            Fondations<br>
+                                            <small>Début des travaux</small>
+                                        </div>
+                                    </div>
+                                    <div class="step-image">
+                                        <div class="image-placeholder">
+                                            Gros œuvre<br>
+                                            <small>Structure & murs</small>
+                                        </div>
+                                    </div>
+                                    <div class="step-image">
+                                        <div class="image-placeholder">
+                                            Charpente<br>
+                                            <small>Mise hors d'eau</small>
+                                        </div>
+                                    </div>
+                                    <div class="step-image">
+                                        <div class="image-placeholder">
+                                            Maison finie<br>
+                                            <small>Livraison clés en main</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <h3 class="step-title">Réalisation Complète</h3>
+                                <p class="step-description">Construction intégrale depuis les fondations jusqu'aux finitions, aménagements extérieurs et remise des clés.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="project-separator"></div>
+
+                    <!-- Projet Villeneuve-lès-Béziers -->
+                    <div class="project" data-project="villeneuve">
+                        <div class="project-header">
+                            <h2 class="project-title">Projet Villeneuve-lès-Béziers</h2>
+                            <p class="project-location">Villeneuve-lès-Béziers, Hérault</p>
+                        </div>
+
+                        <div class="timeline">
+                            <div class="timeline-step" data-step="1">
+                                <div class="step-number">1</div>
+                                <div class="step-image">
+                                    <div class="image-placeholder">
+                                        Plans & Conception<br>
+                                        <small>Étude architecturale</small>
+                                    </div>
+                                </div>
+                                <h3 class="step-title">Conception & Plans</h3>
+                                <p class="step-description">Création des plans sur mesure adaptés aux contraintes du terrain et constitution du dossier de permis.</p>
+                                <div class="long-arrow">
+                                    <div class="arrow-body"></div>
+                                    <div class="arrow-head"></div>
+                                    <div class="arrow-trail"></div>
+                                </div>
+                            </div>
+
+                            <div class="timeline-step" data-step="2">
+                                <div class="step-number">2</div>
+                                <div class="step-image">
+                                    <div class="image-placeholder">
+                                        Construction<br>
+                                        <small>Gros œuvre & structure</small>
+                                    </div>
+                                </div>
+                                <h3 class="step-title">Construction</h3>
+                                <p class="step-description">Mise en œuvre des travaux de construction depuis les fondations jusqu'à la mise hors d'eau.</p>
+                                <div class="long-arrow">
+                                    <div class="arrow-body"></div>
+                                    <div class="arrow-head"></div>
+                                    <div class="arrow-trail"></div>
+                                </div>
+                            </div>
+
+                            <div class="timeline-step" data-step="3">
+                                <div class="step-number">3</div>
+                                <div class="step-image">
+                                    <div class="image-placeholder">
+                                        Maison livrée<br>
+                                        <small>Finitions & remise des clés</small>
+                                    </div>
+                                </div>
+                                <h3 class="step-title">Livraison</h3>
+                                <p class="step-description">Achèvement des travaux avec finitions soignées et remise des clés au propriétaire.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal pour agrandir les images -->
+    <div id="imageModal" class="modal">
+        <span class="close">&times;</span>
+        <div class="modal-content">
+            <img id="modalImage" src="" alt="">
+        </div>
+    </div>
+
+    <script>
+        // Animation au scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    
+                    // Animer les étapes avec délai
+                    const steps = entry.target.querySelectorAll('.timeline-step');
+                    steps.forEach((step, index) => {
+                        setTimeout(() => {
+                            step.classList.add('animate');
+                        }, index * 300);
+                    });
+                }
+            });
+        }, observerOptions);
+
+        // Observer tous les projets
+        document.querySelectorAll('.project').forEach(project => {
+            observer.observe(project);
+        });
+
+        // Gestion du modal pour les images
+        const modal = document.getElementById('imageModal');
+        const modalImg = document.getElementById('modalImage');
+        const closeBtn = document.querySelector('.close');
+
+        document.querySelectorAll('.step-image').forEach(img => {
+            img.addEventListener('click', function() {
+                const imgSrc = this.querySelector('img');
+                if (imgSrc) {
+                    modal.style.display = 'block';
+                    modalImg.src = imgSrc.src;
+                }
+            });
+        });
+
+        closeBtn.addEventListener('click', function() {
+            modal.style.display = 'none';
+        });
+
+        window.addEventListener('click', function(event) {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+
+        // Animation des flèches
+        function animateArrows() {
+            document.querySelectorAll('.arrow').forEach((arrow, index) => {
+                setTimeout(() => {
+                    arrow.style.animationDelay = `${index * 0.2}s`;
+                }, index * 100);
+            });
+        }
+
+        // Lancer l'animation des flèches après le chargement
+        window.addEventListener('load', () => {
+            setTimeout(animateArrows, 1000);
+        });
+
+        // Menu hamburger functionality
+        const menuButton = document.querySelector('.menu-button');
+        menuButton.addEventListener('click', function() {
+            this.classList.toggle('active');
+            // Ici vous pouvez ajouter la logique pour ouvrir/fermer le menu de navigation
+        });
+
+        // Animation de parallaxe subtile
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const rate = scrolled * -0.5;
+            
+            document.querySelectorAll('.timeline-step').forEach((step, index) => {
+                const speed = 0.1 + (index * 0.02);
+                step.style.transform = `translateY(${scrolled * speed}px)`;
+            });
+        });
+    </script>
+</body>
+</html>
