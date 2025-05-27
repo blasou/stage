@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confidentialité et Mentions Légales</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Styles de base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* Menu Button */
+        .menu-button {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .menu-button:hover {
+            transform: scale(1.1);
+            background: rgba(255, 255, 255, 0.25);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .hamburger {
+            width: 24px;
+            height: 24px;
+            position: relative;
+            transition: all 0.4s ease;
+        }
+
+        .hamburger span {
+            display: block;
+            position: absolute;
+            height: 2px;
+            width: 100%;
+            background: white;
+            border-radius: 2px;
+            opacity: 1;
+            left: 0;
+            transform: rotate(0deg);
+            transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .hamburger span:nth-child(1) { top: 0px; }
+        .hamburger span:nth-child(2) { top: 8px; }
+        .hamburger span:nth-child(3) { top: 16px; }
+
+        .menu-button.active .hamburger span:nth-child(1) {
+            top: 8px;
+            transform: rotate(135deg);
+        }
+
+        .menu-button.active .hamburger span:nth-child(2) {
+            opacity: 0;
+            left: -60px;
+        }
+
+        .menu-button.active .hamburger span:nth-child(3) {
+            top: 8px;
+            transform: rotate(-135deg);
+        }
+
+        /* Navigation Overlay */
+        .nav-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.95) 0%, rgba(30, 30, 60, 0.95) 100%);
+            backdrop-filter: blur(30px);
+            z-index: 999;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .nav-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Navigation Container */
+        .nav-container {
+            display: flex;
+            height: 100%;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        /* Navigation Menu */
+        .nav-menu {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Navigation Item */
+        .nav-item {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-decoration: none;
+            color: white;
+            text-align: center;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-item-icon {
+            width: 40px;
+            height: 40px;
+            margin-bottom: 1rem;
+            stroke: white;
+            stroke-width: 1.5;
+            fill: none;
+            transition: all 0.3s ease;
+        }
+
+        .nav-item:hover .nav-item-icon {
+            stroke: #ffd93d;
+        }
+
+        .nav-item-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-item-description {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            line-height: 1.4;
+        }
+
+        /* Brand Logo */
+        .brand-logo {
+            position: absolute;
+            top: 3rem;
+            left: 3rem;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            opacity: 0;
+            transform: translateX(-20px);
+            transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+            transition-delay: 0.2s;
+        }
+
+        .nav-overlay.active .brand-logo {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Container principal */
+        .container {
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+            padding: 2rem 0;
+        }
+
+        .background-image {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* Contenu principal */
+        .main-content {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        /* Titre principal */
+        h1 {
+            font-size: 4rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 4rem;
+            color: #ffffff;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            opacity: 0;
+            animation: fadeInUp 1s ease forwards;
+            position: relative;
+        }
+
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, #ff6b6b, #ffd93d);
+        }
+
+        /* Cartes de contenu */
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 3rem;
+            margin-bottom: 2.5rem;
+            transition: all 0.3s ease;
+            opacity: 0;
+            animation: fadeInUp 1s ease forwards;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .card:nth-child(2) { animation-delay: 0.2s; }
+        .card:nth-child(3) { animation-delay: 0.4s; }
+        .card:nth-child(4) { animation-delay: 0.6s; }
+        .card:nth-child(5) { animation-delay: 0.8s; }
+        .card:nth-child(6) { animation-delay: 1s; }
+
+        /* Sommaire */
+        .toc {
+            background: rgba(255, 107, 107, 0.1);
+            border: 1px solid rgba(255, 107, 107, 0.2);
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 3rem;
+        }
+
+        .toc h3 {
+            color: #ff6b6b;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+        }
+
+        .toc a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            display: block;
+            padding: 0.5rem 0;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+            padding-left: 1rem;
+        }
+
+        .toc a:hover {
+            color: #ffd93d;
+            border-left-color: #ffd93d;
+            transform: translateX(10px);
+        }
+
+        /* Titres de sections */
+        h2 {
+            color: #ff6b6b;
+            margin-bottom: 2rem;
+            font-size: 2rem;
+            font-weight: 600;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        h2::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(90deg, #ff6b6b, #ffd93d);
+            border-radius: 2px;
+        }
+
+        h3 {
+            color: #ffd93d;
+            margin: 2rem 0 1rem 0;
+            font-size: 1.3rem;
+            font-weight: 500;
+        }
+
+        /* Texte */
+        p {
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
+            text-align: justify;
+        }
+
+        /* Listes */
+        ul {
+            margin: 1.5rem 0;
+            padding-left: 2rem;
+        }
+
+        li {
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 0.8rem;
+            line-height: 1.6;
+        }
+
+        li strong {
+            color: #ffd93d;
+        }
+
+        /* Sections en évidence */
+        .highlight {
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.1) 0%, rgba(255, 217, 61, 0.1) 100%);
+            border: 1px solid rgba(255, 107, 107, 0.2);
+            padding: 2rem;
+            border-radius: 15px;
+            margin: 2rem 0;
+        }
+
+        .highlight p {
+            margin-bottom: 1rem;
+        }
+
+        /* Informations de contact */
+        .contact-info {
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.15) 0%, rgba(255, 217, 61, 0.15) 100%);
+            border: 1px solid rgba(255, 107, 107, 0.3);
+            color: white;
+            padding: 2rem;
+            border-radius: 15px;
+            margin: 2rem 0;
+        }
+
+        .contact-info strong {
+            color: #ffd93d;
+        }
+
+        /* Sections */
+        .section {
+            margin-bottom: 3rem;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .menu-button {
+                top: 1.5rem;
+                right: 1.5rem;
+                width: 50px;
+                height: 50px;
+            }
+
+            .hamburger {
+                width: 20px;
+                height: 20px;
+            }
+
+            .brand-logo {
+                top: 2rem;
+                left: 2rem;
+                font-size: 1rem;
+            }
+
+            .nav-menu {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+                padding: 0 1rem;
+            }
+
+            h1 {
+                font-size: 2.5rem;
+                margin-bottom: 3rem;
+            }
+
+            .card {
+                padding: 2rem;
+                margin-bottom: 2rem;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            .container {
+                padding: 1rem 0;
+            }
+
+            .main-content {
+                padding: 0 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .card {
+                padding: 1.5rem;
+            }
+
+            h2 {
+                font-size: 1.3rem;
+            }
+
+            .toc, .highlight, .contact-info {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Menu Button -->
+    <div class="menu-button" onclick="toggleMenu()">
+        <div class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
+
+    <!-- Navigation Overlay -->
+    <div class="nav-overlay" id="navOverlay">
+        <div class="brand-logo">[VOTRE MARQUE]</div>
+        <div class="nav-container">
+            <div class="nav-menu">
+                <a href="#" class="nav-item">
+                    <svg class="nav-item-icon" viewBox="0 0 24 24">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+                        <polyline points="9,22 9,12 15,12 15,22"/>
+                    </svg>
+                    <div class="nav-item-title">Accueil</div>
+                    <div class="nav-item-description">Retour à la page principale</div>
+                </a>
+                
+                <a href="#" class="nav-item">
+                    <svg class="nav-item-icon" viewBox="0 0 24 24">
+                        <path d="M16 4h2a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h2"/>
+                        <rect x="8" y="2" width="8" height="4" rx="1" ry="1"/>
+                    </svg>
+                    <div class="nav-item-title">Services</div>
+                    <div class="nav-item-description">Découvrez nos services</div>
+                </a>
+                
+                <a href="#" class="nav-item">
+                    <svg class="nav-item-icon" viewBox="0 0 24 24">
+                        <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
+                        <circle cx="9" cy="7" r="4"/>
+                        <path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/>
+                    </svg>
+                    <div class="nav-item-title">À propos</div>
+                    <div class="nav-item-description">Notre histoire et équipe</div>
+                </a>
+                
+                <a href="#" class="nav-item">
+                    <svg class="nav-item-icon" viewBox="0 0 24 24">
+                        <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+                    </svg>
+                    <div class="nav-item-title">Contact</div>
+                    <div class="nav-item-description">Contactez-nous</div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="background-image"></div>
+        
+        <div class="main-content">
+            <h1>Confidentialité et Mentions Légales</h1>
+            
+            <div class="card">
+                <div class="toc">
+                    <h3>Sommaire</h3>
+                    <a href="#mentions-legales">1. Mentions Légales</a>
+                    <a href="#politique-confidentialite">2. Politique de Confidentialité</a>
+                    <a href="#cookies">3. Politique des Cookies</a>
+                    <a href="#droits-utilisateurs">4. Vos Droits</a>
+                    <a href="#contact">5. Contact</a>
+                </div>
+            </div>
+
+            <div class="card section" id="mentions-legales">
+                <h2>1. Mentions Légales</h2>
+                
+                <h3>Éditeur du site</h3>
+                <div class="contact-info">
+                    <p><strong>[NOM DE VOTRE ENTREPRISE]</strong><br>
+                    [Forme juridique] au capital de [montant] €<br>
+                    Siège social : [Adresse complète]<br>
+                    RCS [Ville] : [Numéro RCS]<br>
+                    SIRET : [Numéro SIRET]<br>
+                    TVA Intracommunautaire : [Numéro TVA]</p>
+                </div>
+
+                <h3>Directeur de publication</h3>
+                <p>[Nom et prénom du directeur de publication]</p>
+
+                <h3>Hébergement</h3>
+                <p>Ce site est hébergé par :<br>
+                [Nom de l'hébergeur]<br>
+                [Adresse de l'hébergeur]<br>
+                Téléphone : [Numéro de téléphone]</p>
+
+                <h3>Conception et développement</h3>
+                <p>[Nom de l'agence/développeur si applicable]</p>
+            </div>
+
+            <div class="card section" id="politique-confidentialite">
+                <h2>2. Politique de Confidentialité</h2>
+                
+                <div class="highlight">
+                    <p><strong>Dernière mise à jour :</strong> [Date]</p>
+                    <p>Nous nous engageons à protéger votre vie privée et vos données personnelles conformément au Règlement Général sur la Protection des Données (RGPD).</p>
+                </div>
+
+                <h3>Données collectées</h3>
+                <p>Nous collectons les données suivantes :</p>
+                <ul>
+                    <li><strong>Données d'identification :</strong> nom, prénom, adresse email</li>
+                    <li><strong>Données de contact :</strong> numéro de téléphone, adresse postale</li>
+                    <li><strong>Données de navigation :</strong> adresse IP, cookies, pages visitées</li>
+                    <li><strong>Données professionnelles :</strong> entreprise, fonction (si applicable)</li>
+                </ul>
+
+                <h3>Finalités du traitement</h3>
+                <p>Vos données sont utilisées pour :</p>
+                <ul>
+                    <li>Répondre à vos demandes de contact</li>
+                    <li>Vous envoyer notre newsletter (avec votre consentement)</li>
+                    <li>Améliorer nos services et notre site web</li>
+                    <li>Respecter nos obligations légales</li>
+                    <li>Analyser l'utilisation de notre site (statistiques anonymisées)</li>
+                </ul>
+
+                <h3>Base légale du traitement</h3>
+                <p>Le traitement de vos données repose sur :</p>
+                <ul>
+                    <li><strong>Votre consentement</strong> pour la newsletter et les cookies</li>
+                    <li><strong>L'exécution d'un contrat</strong> pour nos services</li>
+                    <li><strong>L'intérêt légitime</strong> pour l'amélioration de nos services</li>
+                    <li><strong>L'obligation légale</strong> pour certaines données comptables</li>
+                </ul>
+
+                <h3>Conservation des données</h3>
+                <p>Nous conservons vos données :</p>
+                <ul>
+                    <li><strong>Données de contact :</strong> 3 ans après le dernier contact</li>
+                    <li><strong>Données clients :</strong> durée de la relation contractuelle + 5 ans</li>
+                    <li><strong>Données de navigation :</strong> 13 mois maximum</li>
+                    <li><strong>Newsletter :</strong> jusqu'à votre désinscription</li>
+                </ul>
+
+                <h3>Partage des données</h3>
+                <p>Nous ne vendons jamais vos données personnelles. Nous pouvons les partager avec :</p>
+                <ul>
+                    <li>Nos prestataires techniques (hébergement, emailing)</li>
+                    <li>Nos partenaires commerciaux (avec votre consentement explicite)</li>
+                    <li>Les autorités légales si requis par la loi</li>
+                </ul>
+            </div>
+
+            <div class="card section" id="cookies">
+                <h2>3. Politique des Cookies</h2>
+                
+                <h3>Qu'est-ce qu'un cookie ?</h3>
+                <p>Un cookie est un petit fichier texte déposé sur votre appareil lors de votre visite sur notre site web.</p>
+
+                <h3>Types de cookies utilisés</h3>
+                <ul>
+                    <li><strong>Cookies essentiels :</strong> nécessaires au fonctionnement du site</li>
+                    <li><strong>Cookies de performance :</strong> statistiques d'utilisation anonymisées</li>
+                    <li><strong>Cookies de fonctionnalité :</strong> préférences utilisateur</li>
+                    <li><strong>Cookies marketing :</strong> personnalisation publicitaire (avec consentement)</li>
+                </ul>
+
+                <h3>Gestion des cookies</h3>
+                <p>Vous pouvez à tout moment :</p>
+                <ul>
+                    <li>Modifier vos préférences via notre bandeau cookies</li>
+                    <li>Paramétrer votre navigateur pour refuser les cookies</li>
+                    <li>Supprimer les cookies déjà installés</li>
+                </ul>
+            </div>
+
+            <div class="card section" id="droits-utilisateurs">
+                <h2>4. Vos Droits</h2>
+                
+                <div class="highlight">
+                    <p>Conformément au RGPD, vous disposez des droits suivants :</p>
+                </div>
+
+                <h3>Droit d'accès</h3>
+                <p>Vous pouvez demander quelles données personnelles nous détenons sur vous.</p>
+
+                <h3>Droit de rectification</h3>
+                <p>Vous pouvez demander la correction de données inexactes ou incomplètes.</p>
+
+                <h3>Droit à l'effacement</h3>
+                <p>Vous pouvez demander la suppression de vos données dans certains cas.</p>
+
+                <h3>Droit de limitation</h3>
+                <p>Vous pouvez demander la limitation du traitement de vos données.</p>
+
+                <h3>Droit de portabilité</h3>
+                <p>Vous pouvez récupérer vos données dans un format structuré.</p>
+
+                <h3>Droit d'opposition</h3>
+                <p>Vous pouvez vous opposer au traitement de vos données pour des raisons légitimes.</p>
+
+                <h3>Exercer vos droits</h3>
+                <p>Pour exercer ces droits, contactez-nous à : <strong>[email-contact@entreprise.com]</strong></p>
+                <p>Nous vous répondrons dans un délai maximum d'un mois.</p>
+
+                <h3>Réclamation</h3>
+                <p>Vous avez le droit de déposer une réclamation auprès de la CNIL :</p>
+                <p>Commission Nationale de l'Informatique et des Libertés<br>
+                3 Place de Fontenoy - TSA 80715<br>
+                75334 PARIS CEDEX 07<br>
+                Téléphone : 01 53 73 22 22</p>
+            </div>
+
+            <div class="card section" id="contact">
+                <h2>5. Contact</h2>
+                
+                <h3>Délégué à la Protection des Données (DPO)</h3>
+                <div class="contact-info">
+                    <p><strong>[Nom du DPO ou "Non désigné" si pas applicable]</strong><br>
+                    Email : <strong>[dpo@entreprise.com]</strong><br>
+                    Téléphone : <strong>[Numéro de téléphone]</strong></p>
+                </div>
+
+                <h3>Contact général</h3>
+                <p>Pour toute question concernant cette politique de confidentialité :</p>
+                <ul>
+                    <li>Email : <strong>[contact@entreprise.com]</strong></li>
+                    <li>Téléphone : <strong>[Numéro de téléphone]</strong></li>
+                    <li>Courrier : <strong>[Adresse postale complète]</strong></li>
+                </ul>
+
+                <div class="highlight">
+                    <p><strong>Mise à jour :</strong> Cette politique peut être mise à jour. La date de dernière modification est indiquée en haut de cette page.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleMenu() {
+            const menuButton = document.querySelector('.menu-button');
+            const navOverlay = document.getElementById('navOverlay');
+            
+            menuButton.classList.toggle('active');
+            navOverlay.classList.toggle('active');
+        }
+
+        // Fermer le menu en cliquant en dehors
+        document.getElementById('navOverlay').addEventListener('click', function(e) {
+            if (e.target === this) {
+                toggleMenu();
+            }
+        });
+
+        // Smooth scroll pour les liens du sommaire
+        document.querySelectorAll('.toc a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
