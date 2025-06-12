@@ -313,39 +313,65 @@
             cursor: pointer;
         }
 
-        footer {
-            text-align: center;
-            margin-top: 3rem;
-            padding: 2rem 0;
-            color: rgba(255, 255, 255, 0.6);
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
+       /* Copyright Footer - REMPLACER le code footer existant */
+.copyright-footer {
+  position: relative;
+  z-index: 10;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  color: white;
+  text-align: center;
+  padding: 1rem 2rem;
+  font-size: 0.9rem;
+  opacity: 0.9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-        @media (max-width: 768px) {
-            .container {
-                padding: 1rem;
-            }
-            
-            .main-title {
-                font-size: 2rem;
-            }
-            
-            .document-grid {
-                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-                gap: 1.5rem;
-            }
+.copyright-footer p {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 400;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
 
-            .projects-tabs {
-                flex-direction: column;
-                align-items: center;
-            }
+.copyright-footer a {
+  color: #ffd93d;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  border-bottom: 1px solid transparent;
+}
 
-            .project-tab {
-                width: 100%;
-                max-width: 300px;
-                text-align: center;
-            }
-        }
+.copyright-footer a:hover {
+  color: #ffffff;
+  border-bottom: 1px solid #ffd93d;
+  transform: translateY(-1px);
+}
+
+/* Responsive pour le footer */
+@media (max-width: 768px) {
+  .copyright-footer {
+    padding: 0.8rem 1rem;
+    font-size: 0.8rem;
+  }
+  
+  .copyright-footer p {
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+  
+  .copyright-footer a {
+    font-size: 0.8rem;
+  }
+}
     </style>
 </head>
 <body>
@@ -614,10 +640,11 @@
                 </div>
             </section>
         </main>
-        
-        <footer>
-            <p>&copy; 2025 Pour tous et notre projet de vie. Tous droits réservés.</p>
-        </footer>
+         <!-- Copyright Footer -->
+      <footer class="copyright-footer">
+        <p>© 2025 A2S PROJECT | <a href="politique.html">Mentions légales et politique de confidentialité</a></p>
+      </footer>
+    </div>
     </div>
 
     <div class="modal" id="imageModal">

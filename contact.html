@@ -4,12 +4,661 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Contact - Pour tous et notre projet de vie</title>
-  <link rel="stylesheet" href="css/contact.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* Styles de base */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    /* Navigation Architecte - CSS - CONSERVÉ INTACT */
+    .menu-button {
+      position: fixed;
+      top: 2rem;
+      right: 2rem;
+      z-index: 1000;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      cursor: pointer;
+      transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .menu-button:hover {
+      transform: scale(1.1);
+      background: rgba(255, 255, 255, 0.25);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    }
+
+    .hamburger {
+      width: 24px;
+      height: 24px;
+      position: relative;
+      transition: all 0.4s ease;
+    }
+
+    .hamburger span {
+      display: block;
+      position: absolute;
+      height: 2px;
+      width: 100%;
+      background: white;
+      border-radius: 2px;
+      opacity: 1;
+      left: 0;
+      transform: rotate(0deg);
+      transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+
+    .hamburger span:nth-child(1) { top: 0px; }
+    .hamburger span:nth-child(2) { top: 8px; }
+    .hamburger span:nth-child(3) { top: 16px; }
+
+    .menu-button.active .hamburger span:nth-child(1) {
+      top: 8px;
+      transform: rotate(135deg);
+    }
+
+    .menu-button.active .hamburger span:nth-child(2) {
+      opacity: 0;
+      left: -60px;
+    }
+
+    .menu-button.active .hamburger span:nth-child(3) {
+      top: 8px;
+      transform: rotate(-135deg);
+    }
+
+    /* Navigation Overlay */
+    .nav-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(0, 0, 0, 0.95) 0%, rgba(30, 30, 60, 0.95) 100%);
+      backdrop-filter: blur(30px);
+      z-index: 999;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+
+    .nav-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* Navigation Container */
+    .nav-container {
+      display: flex;
+      height: 100%;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    /* Navigation Menu */
+    .nav-menu {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    /* Navigation Item */
+    .nav-item {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 15px;
+      padding: 1.5rem;
+      text-decoration: none;
+      color: white;
+      text-align: center;
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .nav-item:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .nav-item-icon {
+      width: 40px;
+      height: 40px;
+      margin-bottom: 1rem;
+      stroke: white;
+      stroke-width: 1.5;
+      fill: none;
+      transition: all 0.3s ease;
+    }
+
+    .nav-item:hover .nav-item-icon {
+      stroke: #ffd93d;
+    }
+
+    .nav-item-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .nav-item-description {
+      font-size: 0.9rem;
+      opacity: 0.8;
+      line-height: 1.4;
+    }
+
+    /* Animation Classes */
+    .nav-item.animate {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .nav-item:nth-child(1) { transition-delay: 0.1s; }
+    .nav-item:nth-child(2) { transition-delay: 0.2s; }
+    .nav-item:nth-child(3) { transition-delay: 0.3s; }
+    .nav-item:nth-child(4) { transition-delay: 0.4s; }
+    .nav-item:nth-child(5) { transition-delay: 0.5s; }
+    .nav-item:nth-child(6) { transition-delay: 0.6s; }
+
+    /* Brand Logo */
+    .brand-logo {
+      position: absolute;
+      top: 3rem;
+      left: 3rem;
+      color: white;
+      font-size: 1.2rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      opacity: 0;
+      transform: translateX(-20px);
+      transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+      transition-delay: 0.2s;
+    }
+
+    .nav-overlay.active .brand-logo {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    /* Animation des particules */
+    @keyframes floatUp {
+      to {
+          transform: translateY(-100vh);
+          opacity: 0;
+      }
+    }
+
+    /* Container principal */
+    .container {
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+      background-color: #f5f5f5;
+    }
+
+    .background-image {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+      background-size: cover;
+      background-position: center;
+    }
+
+    .page-content {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 6rem 0 4rem;
+    }
+
+    .content-wrapper {
+      width: 100%;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    /* Titre principal */
+    h1 {
+      font-size: 4rem;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 4rem;
+      color: #ffffff;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      opacity: 0;
+      animation: fadeInUp 1s ease forwards;
+      position: relative;
+    }
+
+    h1::after {
+      content: '';
+      position: absolute;
+      bottom: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 4px;
+      background: linear-gradient(90deg, #ff6b6b, #ffd93d);
+    }
+
+    /* Grille de contact */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 4rem;
+      opacity: 0;
+      animation: fadeInUp 1s ease 0.3s forwards;
+    }
+
+    /* Formulaire de contact */
+    .contact-form-container {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 3rem;
+      border-radius: 20px;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    .contact-form-container:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    .contact-form-container h2 {
+      font-size: 2rem;
+      color: #ff6b6b;
+      margin-bottom: 1rem;
+      font-weight: 600;
+    }
+
+    .contact-form-container p {
+      color: rgba(255, 255, 255, 0.8);
+      margin-bottom: 2rem;
+      line-height: 1.6;
+    }
+
+    .contact-form .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .contact-form label {
+      display: block;
+      font-size: 1rem;
+      color: rgba(255, 255, 255, 0.8);
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+    }
+
+    .contact-form input,
+    .contact-form select,
+    .contact-form textarea {
+      width: 100%;
+      padding: 0.8rem 1rem;
+      border: 2px solid rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.1);
+      color: #ffffff;
+      font-size: 1rem;
+      outline: none;
+      transition: all 0.3s ease;
+      font-family: inherit;
+    }
+
+    .contact-form input:focus,
+    .contact-form select:focus,
+    .contact-form textarea:focus {
+      background: rgba(255, 255, 255, 0.2);
+      border-color: #ff6b6b;
+      box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.1);
+    }
+
+    .contact-form input::placeholder,
+    .contact-form textarea::placeholder {
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    .contact-form textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    .contact-form .checkbox-group {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .contact-form .checkbox-group input {
+      width: auto;
+      accent-color: #ff6b6b;
+    }
+
+    .contact-form .checkbox-group label {
+      font-size: 0.9rem;
+      line-height: 1.4;
+      margin-bottom: 0;
+    }
+
+    .contact-form .submit-button {
+      display: inline-block;
+      padding: 0.8rem 2rem;
+      background: linear-gradient(90deg, #ff6b6b, #ffd93d);
+      color: #ffffff;
+      border: none;
+      border-radius: 30px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: 600;
+      width: 100%;
+    }
+
+    .contact-form .submit-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+    }
+
+    .contact-form .submit-button:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* Style pour le champ <select> */
+    .contact-form select {
+      appearance: none;
+      cursor: pointer;
+    }
+
+    .contact-form option {
+      background: #1a1a1a;
+      color: #ffffff;
+    }
+
+    /* Message de succès */
+    .form-success {
+      text-align: center;
+      padding: 2rem;
+      background: rgba(34, 197, 94, 0.1);
+      border: 2px solid rgba(34, 197, 94, 0.3);
+      border-radius: 16px;
+      margin-top: 2rem;
+    }
+
+    .form-success svg {
+      color: #22c55e;
+      margin-bottom: 1rem;
+    }
+
+    .form-success h3 {
+      color: #22c55e;
+      font-size: 1.5rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .form-success p {
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    /* Informations de contact */
+    .contact-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .info-card {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 2rem;
+      border-radius: 20px;
+      text-align: center;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    .info-card:hover {
+      transform: translateY(-10px);
+      background: rgba(255, 255, 255, 0.1);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    .info-icon {
+      margin-bottom: 1rem;
+      color: #ff6b6b;
+      display: flex;
+      justify-content: center;
+    }
+
+    .info-icon svg {
+      width: 32px;
+      height: 32px;
+    }
+
+    .info-card h3 {
+      font-size: 1.5rem;
+      color: #ff6b6b;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+    }
+
+    .info-card p {
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 1rem;
+      line-height: 1.6;
+      margin-bottom: 0.3rem;
+    }
+
+    .info-card p:last-child {
+      font-size: 0.9rem;
+      opacity: 0.7;
+    }
+
+    /* Copyright Footer */
+    .copyright-footer {
+      position: relative;
+      z-index: 10;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(10px);
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      color: white;
+      text-align: center;
+      padding: 1rem 2rem;
+      font-size: 0.9rem;
+      opacity: 0.9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .copyright-footer p {
+      margin: 0;
+      font-size: 0.9rem;
+      font-weight: 400;
+      letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .copyright-footer a {
+      color: #ffd93d;
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      border-bottom: 1px solid transparent;
+    }
+
+    .copyright-footer a:hover {
+      color: #ffffff;
+      border-bottom: 1px solid #ffd93d;
+      transform: translateY(-1px);
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Responsive */
+    @media (max-width: 1200px) {
+      .contact-grid {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .nav-menu {
+          grid-template-columns: 1fr;
+          gap: 1.5rem;
+          padding: 0 1rem;
+      }
+
+      .nav-item {
+          padding: 1.5rem;
+      }
+
+      .nav-item-title {
+          font-size: 1.2rem;
+      }
+
+      .nav-item-description {
+          font-size: 0.8rem;
+      }
+
+      .brand-logo {
+          top: 2rem;
+          left: 2rem;
+          font-size: 1rem;
+      }
+
+      .menu-button {
+          top: 1.5rem;
+          right: 1.5rem;
+          width: 50px;
+          height: 50px;
+      }
+
+      .hamburger {
+          width: 20px;
+          height: 20px;
+      }
+
+      h1 {
+        font-size: 2.5rem;
+      }
+
+      .contact-form-container {
+        padding: 2rem;
+      }
+
+      .info-card {
+        padding: 1.5rem;
+      }
+
+      .page-content {
+        padding: 5rem 0 3rem;
+      }
+
+      .content-wrapper {
+        padding: 0 1rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 2rem;
+      }
+
+      .contact-form-container h2 {
+        font-size: 1.8rem;
+      }
+
+      .contact-form input,
+      .contact-form select,
+      .contact-form textarea {
+        font-size: 0.9rem;
+      }
+
+      .copyright-footer {
+        padding: 0.8rem 1rem;
+        font-size: 0.8rem;
+      }
+      
+      .copyright-footer p {
+        flex-direction: column;
+        gap: 0.3rem;
+      }
+      
+      .copyright-footer a {
+        font-size: 0.8rem;
+      }
+    }
+  </style>
 </head>
 <body>
   <div class="container">
     <!-- Image de fond -->
     <div class="background-image"></div>
+    
+    <!-- Menu Button -->
+    <div class="menu-button" id="menu-button">
+      <div class="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+
+    <!-- Navigation Overlay -->
+    <div class="nav-overlay" id="nav-overlay">
+      <div class="brand-logo">A2S PROJECT</div>
+      <div class="nav-container">
+        <div class="nav-menu" id="nav-menu">
+          <!-- Les éléments de navigation seront ajoutés par JavaScript -->
+        </div>
+      </div>
+    </div>
     
     <!-- Contenu spécifique à la page Contact -->
     <div class="page-content">
@@ -24,17 +673,17 @@
             <form class="contact-form" id="contact-form">
               <div class="form-group">
                 <label for="name">Nom complet</label>
-                <input type="text" id="name" name="name" required>
+                <input type="text" id="name" name="name" placeholder="Votre nom complet" required>
               </div>
               
               <div class="form-group">
                 <label for="email">Email</label>
-                <input type="email" id="email" name="email" required>
+                <input type="email" id="email" name="email" placeholder="votre.email@exemple.com" required>
               </div>
               
               <div class="form-group">
                 <label for="message">Message</label>
-                <textarea id="message" name="message" rows="5" required></textarea>
+                <textarea id="message" name="message" rows="5" placeholder="Votre message..." required></textarea>
               </div>
               
               <div class="form-group checkbox-group">
@@ -52,6 +701,7 @@
             </div>
           </div>
             
+          <div class="contact-info">
             <div class="info-card">
               <div class="info-icon">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
@@ -73,6 +723,11 @@
         </div>
       </div>
     </div>
+    
+    <!-- Copyright Footer -->
+    <footer class="copyright-footer">
+      <p>© 2025 A2S PROJECT | <a href="politique.html">Mentions légales et politique de confidentialité</a></p>
+    </footer>
   </div>
   
   <script src="main.js"></script>
